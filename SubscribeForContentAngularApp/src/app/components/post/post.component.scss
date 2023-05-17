@@ -1,0 +1,47 @@
+.action-item {
+  margin-left: 0.5em;
+  cursor: pointer;
+}
+
+.post-card {
+  width: 50vw;
+  margin: 9px;
+}
+
+.post-image {
+  max-width: -webkit-fill-available;
+  object-fit: contain;
+  border-radius: 5px;
+  align-self: center;
+  padding: 25px;
+  padding-top: 0px;
+}
+
+.post-title,
+.post-description,
+.post-content {
+  text-align: justify;
+  margin: 10px;
+  margin-top: 0px !important;
+}
+
+.post-content {
+  margin-top: 0px;
+  white-space: pre-line;
+  line-break: loose;
+  line-height: 22px;
+}
+
+.creator-details {
+  text-align: left;
+  font-size: 11px;
+  margin-left: 10px;
+}
+
+.mat-mdc-card-header {
+  flex-direction: column-reverse;
+}
+
+.post-description {
+  font-size: 12px;
+}

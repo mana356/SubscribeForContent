@@ -1,0 +1,78 @@
+.home-feed {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.creator-bio {
+  margin-top: 20px;
+  height: 230px;
+  width: 90vw;
+  align-self: center;
+  background-position: center !important;
+  background-size: cover !important;
+}
+
+.creator-profile-picture {
+  height: 150px;
+  width: 150px;
+  border-radius: 75px;
+  object-fit: cover;
+}
+
+.profile-picture-div {
+  height: 160px;
+  width: 160px;
+  border-radius: 80px;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  background-color: white;
+  position: absolute;
+  margin-top: 100px;
+  margin-left: 20px;
+  z-index: 1;
+}
+
+.container {
+  justify-content: center;
+  display: grid;
+}
+
+.subscription-btn {
+  width: 100px;
+  align-self: end;
+  padding: 5px;
+  margin: 5px;
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}
+
+.creator-info {
+  position: absolute;
+  top: 260px;
+  left: 4.5vw;
+  width: 18vw;
+  padding: 20px;
+  display: inline-grid;
+  line-height: 30px;
+}
+
+.creator-name {
+  margin: 0;
+  color: white;
+  text-shadow: 1px 2px 1px black;
+  position: absolute;
+  bottom: 0;
+  left: 200px;
+  width: 100%;
+  padding: 20px 10px;
+  font-weight: 600;
+  font-size: 30px;
+  cursor: pointer;
+}
+
+.info-label {
+  color: #919191;
+}

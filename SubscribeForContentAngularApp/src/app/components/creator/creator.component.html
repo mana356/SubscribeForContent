@@ -1,0 +1,37 @@
+<div class="container">
+  <mat-card
+    class="creator-bio"
+    [style.background]="'url(' + creator.CoverPictureUrl + ')'"
+  >
+    <div class="creator-name-div">
+      <h1 class="creator-name">{{ creator.UserName }}</h1>
+    </div>
+
+    <div class="profile-picture-div">
+      <img class="creator-profile-picture" [src]="creator.ProfilePictureUrl" />
+    </div>
+    <button mat-raised-button color="accent" class="subscription-btn">
+      Subscribe
+    </button>
+  </mat-card>
+  <mat-card class="creator-info">
+    <ul style="list-style: none; padding-inline-start: 0">
+      <li>
+        <span>{{ creator.BiographyText }}</span>
+      </li>
+      <li>
+        <span class="info-label">Total Posts: </span>{{ creator.TotalPosts }}
+      </li>
+      <li>
+        <span class="info-label">Joined on: </span
+        >{{ creator.JoinedOn | date : "mediumDate" }}
+      </li>
+    </ul>
+  </mat-card>
+  <div class="home-feed">
+    <app-post
+      *ngFor="let postItem of creatorPosts"
+      [post]="postItem"
+    ></app-post>
+  </div>
+</div>

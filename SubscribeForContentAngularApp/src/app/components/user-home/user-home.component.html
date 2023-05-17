@@ -1,0 +1,16 @@
+<div class="container">
+  <mat-card class="welcome-card">
+    <div class="welcome-div">
+      <h1 class="welcome">Home</h1>
+      <button mat-raised-button [routerLink]="['/create-post']" color="accent">
+        Create Post
+      </button>
+    </div>
+  </mat-card>
+  <div class="home-feed">
+    <app-post *ngFor="let postItem of homePosts" [post]="postItem"></app-post>
+  </div>
+  <div class="home-feed-ending">
+    <span>That's all folks!</span>
+  </div>
+</div>

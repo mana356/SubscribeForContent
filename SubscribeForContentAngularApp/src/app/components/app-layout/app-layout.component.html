@@ -1,0 +1,49 @@
+<div class="example-container">
+  <mat-toolbar color="primary">
+    <button
+      mat-icon-button
+      class="example-icon btn"
+      (click)="snav.toggle(); onClick()"
+    >
+      <div
+        class="icon-bar"
+        [@hamburguerX]="isHamburguer ? 'hamburguer' : 'topX'"
+      ></div>
+      <div
+        class="icon-bar"
+        [@hamburguerX]="isHamburguer ? 'hamburguer' : 'hide'"
+      ></div>
+      <div
+        class="icon-bar"
+        [@hamburguerX]="isHamburguer ? 'hamburguer' : 'bottomX'"
+      ></div>
+    </button>
+    <span class="app-name" [routerLink]="['/home']">Content Star</span>
+    <span class="example-spacer"></span>
+    <button mat-icon-button class="example-icon favorite-icon">
+      <mat-icon>favorite</mat-icon>
+    </button>
+    <button
+      mat-icon-button
+      class="example-icon"
+      aria-label="Example icon-button with share icon"
+    >
+      <mat-icon>share</mat-icon>
+    </button>
+  </mat-toolbar>
+  <mat-sidenav-container
+    class="example-sidenav-container"
+    [style.marginTop.px]="0"
+  >
+    <mat-sidenav #snav fixedTopGap="56">
+      <mat-nav-list>
+        <a mat-list-item routerLink=".">Nav Link 1</a>
+        <a mat-list-item routerLink=".">Nav Link 2</a>
+        <a mat-list-item routerLink=".">Nav Link 3</a>
+      </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <router-outlet></router-outlet>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>
