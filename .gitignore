@@ -1,0 +1,15 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/SubscribeForContentAPI/.vs
+/SubscribeForContentAPI/SFC_DataAccess/bin
+/SubscribeForContentAPI/SFC_DataAccess/obj
+/SubscribeForContentAPI/SFC_DataEntities/bin
+/SubscribeForContentAPI/SFC_DataEntities/obj
+/SubscribeForContentAPI/SFC_DTO/bin
+/SubscribeForContentAPI/SFC_DTO/obj
+/SubscribeForContentAPI/SFC_Utility/bin
+/SubscribeForContentAPI/SFC_Utility/obj
+/SubscribeForContentAPI/SubscribeForContentAPI/bin
+/SubscribeForContentAPI/SubscribeForContentAPI/obj
