@@ -29,9 +29,16 @@ namespace SFC_DataEntities.Entities
         [Required]
         public string ContainerName { get; set; }
 
-        [Required]
-        public int PostId { get; set; }
+        public int? PostId { get; set; }
 
-        public Post Post { get; set; }
+        public Post? Post { get; set; }
+
+        public int? UserProfilePictureId { get; set; }
+
+        public UserProfile? UserProfilePicture { get; set; }
+
+        public int? UserCoverPictureId { get; set; }
+
+        public UserProfile? UserCoverPicture { get; set; }
     }
 }

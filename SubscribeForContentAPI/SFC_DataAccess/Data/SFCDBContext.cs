@@ -46,12 +46,25 @@ namespace SFC_DataAccess.Data
                 modelBuilder.Entity<UserProfile>()
                     .HasMany(u => u.LikedPosts)
                     .WithMany(c => c.LikedByUsers);
+                
+                modelBuilder.Entity<UserProfile>()
+                    .HasOne(u => u.ProfilePicture)
+                    .WithOne(f => f.UserProfilePicture)
+                    .HasForeignKey<UserProfile>(up => up.ProfilePictureId)
+                    .OnDelete(DeleteBehavior.NoAction);
+
+                modelBuilder.Entity<UserProfile>()
+                    .HasOne(u => u.CoverPicture)
+                    .WithOne(f => f.UserCoverPicture)
+                    .HasForeignKey<UserProfile>(up => up.CoverPictureId)
+                    .OnDelete(DeleteBehavior.NoAction); 
+
 
             #endregion
 
             #region CreatorSubscriptionLevel
 
-                modelBuilder.Entity<CreatorSubscriptionLevel>()
+            modelBuilder.Entity<CreatorSubscriptionLevel>()
                     .HasOne(c => c.Creator)
                     .WithMany(u => u.SubscriptionLevels)
                     .OnDelete(DeleteBehavior.Cascade);
@@ -120,8 +133,22 @@ namespace SFC_DataAccess.Data
                 modelBuilder.Entity<Post>()
                     .HasMany(p => p.FileContents)
                     .WithOne(f => f.Post)
-                    .OnDelete(DeleteBehavior.Cascade);
+                    .OnDelete(DeleteBehavior.NoAction);
 
+            #endregion
+
+            #region FileContent
+                modelBuilder.Entity<FileContent>()
+                        .HasOne(u => u.UserProfilePicture)
+                        .WithOne(f => f.ProfilePicture)
+                        .HasForeignKey<FileContent>(up => up.UserProfilePictureId)
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                modelBuilder.Entity<FileContent>()
+                    .HasOne(u => u.UserCoverPicture)
+                    .WithOne(f => f.CoverPicture)
+                    .HasForeignKey<FileContent>(up => up.UserCoverPictureId)
+                    .OnDelete(DeleteBehavior.NoAction);
             #endregion
         }
     }
