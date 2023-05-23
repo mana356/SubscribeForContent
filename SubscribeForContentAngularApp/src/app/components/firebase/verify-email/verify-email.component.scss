@@ -1,0 +1,16 @@
+.verification-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 90vh;
+  .verification-card {
+    width: 40vw;
+    margin: 15px;
+    .actions-div {
+      display: block;
+      .action-group-div {
+        margin: 10px;
+      }
+    }
+  }
+}

@@ -19,6 +19,17 @@ import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { DndDirective } from './shared/dnd.directive';
 import { ProgressComponent } from './components/progress/progress.component';
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFireAuthModule } from '@angular/fire/compat/auth';
+import { AngularFireStorageModule } from '@angular/fire/compat/storage';
+import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
+import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
+import { environment } from '../environments/environment';
+import { SignInComponent } from './components/firebase/sign-in/sign-in.component';
+import { SignUpComponent } from './components/firebase/sign-up/sign-up.component';
+import { ForgotPasswordComponent } from './components/firebase/forgot-password/forgot-password.component';
+import { VerifyEmailComponent } from './components/firebase/verify-email/verify-email.component';
+import { AuthService } from './shared/services/auth.service';
 
 @NgModule({
   declarations: [
@@ -34,6 +45,10 @@ import { ProgressComponent } from './components/progress/progress.component';
     CreatorComponent,
     DndDirective,
     ProgressComponent,
+    SignInComponent,
+    SignUpComponent,
+    ForgotPasswordComponent,
+    VerifyEmailComponent,
   ],
   imports: [
     BrowserModule,
@@ -44,8 +59,13 @@ import { ProgressComponent } from './components/progress/progress.component';
     FormsModule,
     ReactiveFormsModule,
     CommonModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireAuthModule,
+    AngularFirestoreModule,
+    AngularFireStorageModule,
+    AngularFireDatabaseModule,
   ],
-  providers: [DatePipe],
+  providers: [DatePipe, AuthService],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

@@ -37,4 +37,50 @@ h1.example-app-name {
 
 .app-name {
   cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+.user-image-thumbnail {
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+}
+
+.user-card {
+  display: grid;
+  width: 280px;
+  font-size: 12px;
+}
+.example-header-image {
+  justify-self: center;
+  img {
+    height: 50px;
+    width: 50px;
+  }
+}
+.user-card-header,
+.mat-mdc-card-title {
+  font-size: 14px;
+}
+
+::ng-deep .mat-mdc-menu-content {
+  padding: 0 !important;
+}
+
+::ng-deep .mat-mdc-menu-panel.mat-mdc-menu-panel {
+  max-width: 400px !important;
+}
+
+.user-profile-nav-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.user-card-actions {
+  flex-direction: column;
+  align-items: flex-start;
+  button {
+    font-size: 13px;
+  }
 }

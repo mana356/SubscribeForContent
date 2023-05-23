@@ -1,0 +1,70 @@
+<div class="login-container">
+  <mat-card class="login-card">
+    <mat-card-header>
+      <mat-card-title> <h3>Sign In</h3></mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="loginFormGroup">
+        <mat-form-field>
+          <mat-label>Username</mat-label>
+          <input
+            #userName
+            type="text"
+            required
+            matInput
+            formControlName="username"
+          />
+          <mat-error *ngIf="errorHandling('username', 'required')">
+            You must provide an <strong>username</strong>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Password</mat-label>
+          <input
+            type="password"
+            #userPassword
+            required
+            matInput
+            formControlName="password"
+          />
+          <mat-error *ngIf="errorHandling('password', 'required')">
+            You must provide a <strong>password</strong>
+          </mat-error>
+        </mat-form-field>
+      </form>
+    </mat-card-content>
+    <mat-card-actions class="actions-div">
+      <div class="action-group-div">
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="
+            validate() && authService.SignIn(userName.value, userPassword.value)
+          "
+        >
+          Log in
+        </button>
+        <span>&nbsp;&nbsp;Or&nbsp;&nbsp;</span>
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="googleLogin(); authService.GoogleAuth()"
+        >
+          <i class="fa-brands fa-google fa-beat"></i>
+          &nbsp;Log in with Google
+        </button>
+      </div>
+      <div class="action-group-div">
+        <button mat-raised-button color="default" routerLink="/forgot-password">
+          Forgot Password?
+        </button>
+      </div>
+      <div class="action-group-div">
+        <span>Don't have an account?&nbsp;</span
+        ><button mat-raised-button color="accent" routerLink="/register-user">
+          Sign Up
+        </button>
+      </div>
+    </mat-card-actions>
+  </mat-card>
+</div>

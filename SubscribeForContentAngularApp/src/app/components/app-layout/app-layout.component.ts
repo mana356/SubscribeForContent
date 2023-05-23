@@ -6,6 +6,7 @@ import {
   animate,
 } from '@angular/animations';
 import { Component } from '@angular/core';
+import { AuthService } from 'src/app/shared/services/auth.service';
 
 @Component({
   selector: 'app-app-layout',
@@ -50,7 +51,7 @@ import { Component } from '@angular/core';
   ],
 })
 export class AppLayoutComponent {
-  constructor() {}
+  constructor(public authService: AuthService) {}
   isHamburguer = true;
   onClick() {
     this.isHamburguer = !this.isHamburguer;

@@ -1,0 +1,69 @@
+<div class="register-container">
+  <mat-card class="register-card">
+    <mat-card-header>
+      <mat-card-title> <h3>Sign Up</h3></mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="registerFormGroup">
+        <mat-form-field>
+          <mat-label>Email Address</mat-label>
+          <input
+            #userEmail
+            type="email"
+            required
+            matInput
+            formControlName="email"
+          />
+          <mat-error *ngIf="errorHandling('email', 'required')">
+            You must provide an <strong>email</strong>
+          </mat-error>
+          <mat-error *ngIf="errorHandling('email', 'email')">
+            Email address is invalid
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Password</mat-label>
+          <input
+            type="password"
+            #userPwd
+            required
+            matInput
+            formControlName="password"
+          />
+          <mat-error *ngIf="errorHandling('password', 'required')">
+            You must provide a <strong>password</strong>
+          </mat-error>
+        </mat-form-field>
+      </form>
+    </mat-card-content>
+    <mat-card-actions class="actions-div">
+      <div class="action-group-div">
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="
+            validate() && authService.SignUp(userEmail.value, userPwd.value)
+          "
+        >
+          Sign up
+        </button>
+        <span>&nbsp;&nbsp;Or&nbsp;&nbsp;</span>
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="googleLogin(); authService.GoogleAuth()"
+        >
+          <i class="fa-brands fa-google"></i>
+          &nbsp;Continue with Google
+        </button>
+      </div>
+
+      <div class="action-group-div">
+        <span>Already have an account?&nbsp;</span
+        ><button mat-raised-button color="accent" routerLink="/sign-in">
+          Log In
+        </button>
+      </div>
+    </mat-card-actions>
+  </mat-card>
+</div>

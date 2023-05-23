@@ -32,3 +32,23 @@ body {
 .mat-mdc-form-field {
   display: flex !important;
 }
+
+.success-snackbar {
+  background: rgb(104, 224, 148) !important;
+  color: white !important;
+}
+.success-snackbar button {
+  background: rgb(104, 224, 148) !important;
+  color: white !important;
+  border: none !important;
+}
+.failure-snackbar {
+  background: #fc756c !important;
+  color: white !important;
+}
+
+.failure-snackbar button {
+  background: #fc756c !important;
+  color: white !important;
+  border: none !important;
+}

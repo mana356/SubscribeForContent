@@ -4,6 +4,7 @@
       mat-icon-button
       class="example-icon btn"
       (click)="snav.toggle(); onClick()"
+      *ngIf="authService.isLoggedIn"
     >
       <div
         class="icon-bar"
@@ -18,18 +19,72 @@
         [@hamburguerX]="isHamburguer ? 'hamburguer' : 'bottomX'"
       ></div>
     </button>
-    <span class="app-name" [routerLink]="['/home']">Content Star</span>
+    <span class="app-name" [routerLink]="['/home']"
+      ><mat-icon>hotel_class</mat-icon>&nbsp; Content Star</span
+    >
     <span class="example-spacer"></span>
-    <button mat-icon-button class="example-icon favorite-icon">
-      <mat-icon>favorite</mat-icon>
-    </button>
     <button
       mat-icon-button
-      class="example-icon"
-      aria-label="Example icon-button with share icon"
+      class="user-profile-nav-btn"
+      #trigger="matMenuTrigger"
+      [matMenuTriggerFor]="menu"
+      *ngIf="authService.isLoggedIn && authService.userData as user"
     >
-      <mat-icon>share</mat-icon>
+      <img
+        class="user-image-thumbnail"
+        [src]="user.photoURL ? user.photoURL : '/assets/dummy-user.png'"
+      />
     </button>
+    <button
+      class="user-profile-nav-btn"
+      mat-icon-button
+      *ngIf="!authService.isLoggedIn"
+    >
+      <img class="user-image-thumbnail" src="/assets/dummy-user.png" />
+    </button>
+    <mat-menu #menu="matMenu">
+      <mat-card
+        class="user-card"
+        *ngIf="authService.isLoggedIn && authService.userData as user"
+      >
+        <mat-card-header class="user-card-header">
+          <div mat-card-avatar class="example-header-image">
+            <img
+              mat-card-image
+              [src]="user.photoURL ? user.photoURL : '/assets/dummy-user.png'"
+              alt="{{ user.displayName }}"
+            />
+          </div>
+          <mat-card-title>
+            Hello,
+            <strong>{{
+              user.displayName ? user.displayName : "User"
+            }}</strong></mat-card-title
+          >
+          <mat-card-subtitle>User Profile</mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
+          <p>
+            User ID: <strong>{{ user.uid }}</strong>
+          </p>
+          <p>
+            Email: <strong>{{ user.email }}</strong>
+          </p>
+          <p>
+            Email Verified: <strong>{{ user.emailVerified }}</strong>
+          </p>
+        </mat-card-content>
+        <mat-card-actions class="user-card-actions">
+          <button mat-button>
+            <mat-icon>settings</mat-icon> Account Settings
+          </button>
+          <button mat-button (click)="authService.SignOut()">
+            <mat-icon>logout</mat-icon> Logout
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </mat-menu>
   </mat-toolbar>
   <mat-sidenav-container
     class="example-sidenav-container"

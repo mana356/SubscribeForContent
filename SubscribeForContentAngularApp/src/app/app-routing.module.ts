@@ -9,21 +9,54 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
 import { CreatePostComponent } from './components/create-post/create-post.component';
 import { PaymentComponent } from './components/payment/payment.component';
 import { CreatorComponent } from './components/creator/creator.component';
+import { ForgotPasswordComponent } from './components/firebase/forgot-password/forgot-password.component';
+import { SignInComponent } from './components/firebase/sign-in/sign-in.component';
+import { SignUpComponent } from './components/firebase/sign-up/sign-up.component';
+import { VerifyEmailComponent } from './components/firebase/verify-email/verify-email.component';
+import { AuthGuard } from './shared/guard/auth.guard';
 
 const routes: Routes = [
   {
     path: '',
     component: AppLayoutComponent,
     children: [
-      { path: 'home', component: UserHomeComponent },
-      { path: '', redirectTo: 'home', pathMatch: 'prefix' },
-      { path: 'admin-home', component: AdminHomeComponent },
-      { path: 'post', component: PostComponent },
-      { path: 'subscriptions', component: SubscriptionsComponent },
-      { path: 'user-profile', component: UserProfileComponent },
-      { path: 'create-post', component: CreatePostComponent },
-      { path: 'make-payment', component: PaymentComponent },
-      { path: 'creator/:username', component: CreatorComponent },
+      { path: 'sign-in', component: SignInComponent },
+      { path: 'register-user', component: SignUpComponent },
+      { path: 'forgot-password', component: ForgotPasswordComponent },
+      { path: 'verify-email-address', component: VerifyEmailComponent },
+      { path: 'home', component: UserHomeComponent, canActivate: [AuthGuard] },
+      { path: '', redirectTo: '/sign-in', pathMatch: 'full' },
+      {
+        path: 'admin-home',
+        component: AdminHomeComponent,
+        canActivate: [AuthGuard],
+      },
+      { path: 'post', component: PostComponent, canActivate: [AuthGuard] },
+      {
+        path: 'subscriptions',
+        component: SubscriptionsComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'user-profile',
+        component: UserProfileComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'create-post',
+        component: CreatePostComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'make-payment',
+        component: PaymentComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'creator/:username',
+        component: CreatorComponent,
+        canActivate: [AuthGuard],
+      },
     ],
   },
 ];
