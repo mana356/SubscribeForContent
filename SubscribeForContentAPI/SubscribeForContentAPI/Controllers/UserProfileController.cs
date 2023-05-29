@@ -31,8 +31,8 @@ namespace SubscribeForContentAPI.Controllers
 
         
         [Authorize]
-        [HttpGet("{id}", Name = "GetUserById")]
-        public async Task<IActionResult> GetPostById(string id)
+        [HttpGet("{id}", Name = "GetUserByFirebaseId")]
+        public async Task<IActionResult> GetUserByFirebaseId(string id)
         {
             var userProfileEntity = await _unitOfWork.UserProfileRepository.GetFirstOrDefaultAsync(p => p.FirebaseUserId == id, "SubscriptionLevels,Subscriptions,Subscribers,ProfilePicture,CoverPicture");
 
