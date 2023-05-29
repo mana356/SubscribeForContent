@@ -9,6 +9,7 @@ namespace SubscribeForContentAPI.AutoMapperProfiles
         {
             CreateMap<SFC_DataEntities.Entities.UserProfile, UserProfileDTO>();
             CreateMap<SFC_DataEntities.Entities.UserProfile, UserBasicProfileDTO>();
+            CreateMap<UserProfileCreationDTO, SFC_DataEntities.Entities.UserProfile > ();
         }
     }
 }

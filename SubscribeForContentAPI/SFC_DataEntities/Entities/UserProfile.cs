@@ -18,20 +18,22 @@ namespace SFC_DataEntities.Entities
         [Required]
         public string Name { get; set; }
 
-        [MaxLength(30)]
         [Required]
-        public string UserName { get; set; }
+        public string FirebaseUserId { get; set; }
+
+        [MaxLength(30)]        
+        public string? UserName { get; set; }
         
         [MaxLength(255)]
         [Required]
         public string Email { get; set; }
 
-        [Required]
-        public DateTime DateOfBirth { get; set; }
+        
+        public DateTime? DateOfBirth { get; set; }
         
         [MaxLength(500)]
-        [Required]
-        public string Bio { get; set; }
+        
+        public string? Bio { get; set; }
 
         public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
 

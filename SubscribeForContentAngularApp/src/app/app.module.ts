@@ -30,6 +30,15 @@ import { SignUpComponent } from './components/firebase/sign-up/sign-up.component
 import { ForgotPasswordComponent } from './components/firebase/forgot-password/forgot-password.component';
 import { VerifyEmailComponent } from './components/firebase/verify-email/verify-email.component';
 import { AuthService } from './shared/services/auth.service';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { JwtInterceptor } from './shared/interceptors/jwt.interceptor';
+import { LocalStorageService } from './shared/services/local-storage.service';
+import { ErrorCatchingInterceptor } from './shared/interceptors/error-catching.interceptor';
+import { SpinnerComponent } from './components/shared/spinner/spinner.component';
+import { LoadingInterceptor } from './shared/interceptors/loading.interceptor';
+import { ErrorComponent } from './components/error/error.component';
+import { JWTTokenService } from './shared/services/jwt-token.service';
+import { LoaderService } from './shared/services/loader.service';
 
 @NgModule({
   declarations: [
@@ -49,6 +58,8 @@ import { AuthService } from './shared/services/auth.service';
     SignUpComponent,
     ForgotPasswordComponent,
     VerifyEmailComponent,
+    SpinnerComponent,
+    ErrorComponent,
   ],
   imports: [
     BrowserModule,
@@ -64,8 +75,22 @@ import { AuthService } from './shared/services/auth.service';
     AngularFirestoreModule,
     AngularFireStorageModule,
     AngularFireDatabaseModule,
+    HttpClientModule,
   ],
-  providers: [DatePipe, AuthService],
+  providers: [
+    DatePipe,
+    AuthService,
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ErrorCatchingInterceptor,
+      multi: true,
+    },
+    { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
+    LocalStorageService,
+    JWTTokenService,
+    LoaderService,
+  ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

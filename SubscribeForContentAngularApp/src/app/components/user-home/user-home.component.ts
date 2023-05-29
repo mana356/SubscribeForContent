@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Post } from 'src/app/models/Posts/post.model';
+import { PostService } from 'src/app/shared/services/post.service';
 
 @Component({
   selector: 'app-user-home',
@@ -8,6 +9,8 @@ import { Post } from 'src/app/models/Posts/post.model';
 })
 export class UserHomeComponent implements OnInit {
   homePosts: Post[] = [];
+  constructor(private postService: PostService) {}
+
   ngOnInit() {
     const post1: Post = {
       Id: 1,
@@ -49,5 +52,11 @@ export class UserHomeComponent implements OnInit {
       IsLiked: false,
     };
     this.homePosts.push(post3);
+  }
+
+  getData() {
+    this.postService.GetUserHomeFeed().subscribe((result) => {
+      console.log(result);
+    });
   }
 }

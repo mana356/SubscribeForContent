@@ -1,0 +1,30 @@
+<div class="error-container">
+  <mat-card class="error-card">
+    <mat-card-header>
+      <h2>{{ title }}</h2>
+    </mat-card-header>
+    <mat-card-content>
+      <div>
+        <h3>Error Details:</h3>
+        <ul>
+          <li>
+            <span>Status Code: {{ errorCode }}</span>
+          </li>
+          <li>
+            <span>Title: {{ errorTitle }}</span>
+          </li>
+          <li>
+            <span>Message: {{ errorMsg }}</span>
+          </li>
+          <li>
+            <span>Trace: {{ errorTrace }}</span>
+          </li>
+        </ul>
+      </div>
+    </mat-card-content>
+    <mat-card-footer class="error-footer">
+      <span>Contact Support with this error information.</span>
+      <span><a routerLink="/home">Go back to home</a></span>
+    </mat-card-footer>
+  </mat-card>
+</div>

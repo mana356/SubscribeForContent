@@ -14,6 +14,7 @@ namespace SFC_DataAccess.Repository.Contracts
 
         public IPostRepository PostRepository { get; }
         public IFileContentRepository FileContentRepository { get; }
+        public IUserProfileRepository UserProfileRepository { get; }
 
         Task SaveAsync();
     }

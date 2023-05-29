@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using SFC_DataEntities.Entities;
 using System;
 using System.Collections.Generic;
@@ -11,10 +12,11 @@ namespace SFC_DataAccess.Data
 {
     public class SFCDBContext : DbContext
     {
-        public SFCDBContext(DbContextOptions<SFCDBContext> options)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public SFCDBContext(DbContextOptions<SFCDBContext> options, IHttpContextAccessor httpContextAccessor)
             : base(options)
         {
-          
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public DbSet<Post> Post { get; set; }
@@ -34,7 +36,11 @@ namespace SFC_DataAccess.Data
                     .HasIndex(u => u.Email)
                     .IsUnique();
 
-                modelBuilder.Entity<UserProfile>()
+            modelBuilder.Entity<UserProfile>()
+                .HasIndex(u => u.FirebaseUserId)
+                .IsUnique();
+
+            modelBuilder.Entity<UserProfile>()
                     .HasIndex(u => u.UserName)
                     .IsUnique();
 

@@ -1,0 +1,15 @@
+.error-container {
+  display: flex;
+  justify-content: center;
+
+  .error-card {
+    margin-top: 2%;
+    width: 50vw;
+    padding: 10px;
+    .error-footer {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+}

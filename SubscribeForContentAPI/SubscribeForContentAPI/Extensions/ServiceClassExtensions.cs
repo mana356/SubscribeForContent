@@ -13,8 +13,10 @@ namespace SubscribeForContentAPI.Extensions
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IPostRepository, PostRepository>();
             services.AddScoped<IFileContentRepository, FileContentRepository>();
+            services.AddScoped<IUserProfileRepository, UserProfileRepository>();
             services.Configure<ConnectionStrings>(configuration.GetSection("ConnectionStrings"));
             services.AddSingleton<IBlobStorage, BlobStorageService>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             return services;
         }
     }

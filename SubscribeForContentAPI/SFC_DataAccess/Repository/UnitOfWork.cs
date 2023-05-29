@@ -13,16 +13,19 @@ namespace SFC_DataAccess.Repository
         private readonly SFCDBContext _dbContext;
         public SFCDBContext DbContext => _dbContext;
 
-        public UnitOfWork(SFCDBContext dbContext, IPostRepository postRepository, IFileContentRepository fileContentRepository)
+        public UnitOfWork(SFCDBContext dbContext, IPostRepository postRepository, IFileContentRepository fileContentRepository, IUserProfileRepository userProfileRepository)
         {
             _dbContext = dbContext;
             this.PostRepository = postRepository;
             FileContentRepository = fileContentRepository;
+            UserProfileRepository = userProfileRepository;
         }
 
         public IPostRepository PostRepository { get; }
 
         public IFileContentRepository FileContentRepository {get;}
+
+        public IUserProfileRepository UserProfileRepository { get; }
 
         public void Dispose()
         {

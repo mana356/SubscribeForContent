@@ -14,6 +14,7 @@ import { SignInComponent } from './components/firebase/sign-in/sign-in.component
 import { SignUpComponent } from './components/firebase/sign-up/sign-up.component';
 import { VerifyEmailComponent } from './components/firebase/verify-email/verify-email.component';
 import { AuthGuard } from './shared/guard/auth.guard';
+import { ErrorComponent } from './components/error/error.component';
 
 const routes: Routes = [
   {
@@ -55,6 +56,11 @@ const routes: Routes = [
       {
         path: 'creator/:username',
         component: CreatorComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'error',
+        component: ErrorComponent,
         canActivate: [AuthGuard],
       },
     ],

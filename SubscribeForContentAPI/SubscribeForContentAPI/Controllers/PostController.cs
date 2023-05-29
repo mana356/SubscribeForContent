@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SFC_DataAccess.Repository.Contracts;
 using SFC_DataEntities.Entities;
 using SFC_DTO.FileContent;
 using SFC_DTO.Post;
 using SubscribeForContentAPI.Services.Contracts;
+using System.Security.Claims;
 
 namespace SubscribeForContentAPI.Controllers
 {
@@ -15,14 +17,17 @@ namespace SubscribeForContentAPI.Controllers
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IBlobStorage _blobStorage;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public PostController(IMapper mapper, IUnitOfWork unitOfWork, IBlobStorage blobStorage)
+        public PostController(IMapper mapper, IUnitOfWork unitOfWork, IBlobStorage blobStorage, IHttpContextAccessor httpContextAccessor)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
             _blobStorage = blobStorage;
+            _httpContextAccessor = httpContextAccessor;
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetAllPosts([FromQuery] PostSearchFilter queryFilter = null)
         {
@@ -32,6 +37,7 @@ namespace SubscribeForContentAPI.Controllers
             return Ok(postResults);
         }
 
+        [Authorize]
         [HttpGet("{id}", Name = "GetPostById")]
         public async Task<IActionResult> GetPostById(int id)
         {
@@ -41,6 +47,8 @@ namespace SubscribeForContentAPI.Controllers
             {
                 return NotFound();
             }
+            
+
             var dataToReturn = _mapper.Map<PostDTO>(postEntity);
             if (postEntity.FileContents != null && postEntity.FileContents.Any())
             {
@@ -55,6 +63,7 @@ namespace SubscribeForContentAPI.Controllers
             return Ok(dataToReturn);
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> CreateAPost([FromForm] PostCreationDTO postCreationDTO)
         {
@@ -82,13 +91,22 @@ namespace SubscribeForContentAPI.Controllers
                 _unitOfWork.FileContentRepository.AddRange(files.Select(f => f.fileContent).ToList());
                 postEntity.FileContents = files.Select(f => f.fileContent).ToList();
             }
-            postEntity.CreatorId = 3;
+            var user = await GetLoggedInUser();
+            postEntity.CreatorId = user.Id;
+
             _unitOfWork.PostRepository.Add(postEntity);
             await _unitOfWork.SaveAsync();
 
             var dataToReturn = _mapper.Map<PostDTO>(postEntity);
 
             return CreatedAtRoute("GetPostById", dataToReturn);
+        }
+
+        private async Task<UserProfile> GetLoggedInUser()
+        {
+            var firebaseUserId = _httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var userProfile = await _unitOfWork.UserProfileRepository.GetFirstOrDefaultAsync(u => u.FirebaseUserId == firebaseUserId);
+            return userProfile;
         }
     }
 }
