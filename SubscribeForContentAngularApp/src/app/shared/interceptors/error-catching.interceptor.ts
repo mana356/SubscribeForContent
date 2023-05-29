@@ -30,7 +30,6 @@ export class ErrorCatchingInterceptor implements HttpInterceptor {
           if (error.status === 401) {
             this.router.navigate(['sign-in']);
           } else if (error.status === 500 || error.status === 404) {
-            debugger;
             this.router.navigate(['error'], {
               queryParams: {
                 code: error.status,

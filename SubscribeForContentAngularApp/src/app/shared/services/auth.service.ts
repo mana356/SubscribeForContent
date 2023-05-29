@@ -1,5 +1,5 @@
 import { Injectable, NgZone } from '@angular/core';
-import { User } from '../services/user';
+import { User } from '../../models/user';
 import * as auth from 'firebase/auth';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import {
@@ -8,12 +8,9 @@ import {
 } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { environment } from 'src/environments/environment';
-import { HttpClient } from '@angular/common/http';
-import { UserProfileCreationDTO } from 'src/app/models/UserProfile/UserProfileCreationDTO.model';
-import { Observable } from 'rxjs';
 import { LocalStorageService } from './local-storage.service';
 import { JWTTokenService } from './jwt-token.service';
+import { UserService } from './user.service';
 @Injectable({
   providedIn: 'root',
 })
@@ -25,9 +22,9 @@ export class AuthService {
     public router: Router,
     public ngZone: NgZone, // NgZone service to remove outside scope warning
     private snackBar: MatSnackBar,
-    private http: HttpClient,
     private localStorageService: LocalStorageService,
-    private jwtTokenService: JWTTokenService
+    private jwtTokenService: JWTTokenService,
+    private userService: UserService
   ) {
     /* Saving user data in localstorage when 
     logged in and setting up null when logged out */
@@ -38,7 +35,8 @@ export class AuthService {
         JSON.parse(this.localStorageService.get('user')!);
         user.getIdToken().then((token) => {
           this.jwtTokenService.setToken(token);
-          this.RegisterUserInDb().subscribe(() => {});
+          //auto register or create the user (bare minimum profile) in app db if it doesn't already exist
+          this.userService.CreateUser().subscribe(() => {});
         });
       } else {
         this.localStorageService.set('user', 'null');
@@ -76,10 +74,6 @@ export class AuthService {
         this.SetUserData(result.user);
         this.afAuth.authState.subscribe((user) => {
           if (user) {
-            this.RegisterUserInDb().subscribe(() => {
-              console.log('user registered in db!');
-            });
-
             this.router.navigate(['home']);
           }
         });
@@ -131,9 +125,6 @@ export class AuthService {
     return this.AuthLogin(new auth.GoogleAuthProvider()).then((res: any) => {
       this.afAuth.authState.subscribe((user) => {
         if (user) {
-          this.RegisterUserInDb().subscribe(() => {
-            console.log('user registered in db!');
-          });
           this.router.navigate(['home']);
         }
       });
@@ -147,9 +138,6 @@ export class AuthService {
         this.SetUserData(result.user);
         this.afAuth.authState.subscribe((user) => {
           if (user) {
-            this.RegisterUserInDb().subscribe(() => {
-              console.log('user registered in db!');
-            });
             this.router.navigate(['home']);
           }
         });
@@ -182,18 +170,5 @@ export class AuthService {
       this.localStorageService.remove('user');
       this.router.navigate(['sign-in']);
     });
-  }
-
-  RegisterUserInDb(): Observable<any> {
-    const userData: UserProfileCreationDTO = {
-      Name:
-        this.userData.displayName ??
-        this.userData.email.substring(0, this.userData.email.indexOf('@')),
-      Email: this.userData.email,
-    };
-    return this.http.post(
-      environment.apiURL + 'Users/CreateUserIfDoesNotExist',
-      userData
-    );
   }
 }
