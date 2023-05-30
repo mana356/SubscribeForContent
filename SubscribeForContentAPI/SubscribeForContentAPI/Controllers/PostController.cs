@@ -33,12 +33,27 @@ namespace SubscribeForContentAPI.Controllers
         {
             var posts = await _unitOfWork.PostRepository.GetPostsAsync(queryFilter);
             var postResults = _mapper.Map<List<PostSummaryDTO>>(posts);
-
+            foreach (var post in posts)
+            {
+                if (post.FileContents != null && post.FileContents.Any())
+                {
+                    foreach (var row in post.FileContents)
+                    {
+                        var url = await _blobStorage.GetSasUrlAsync(row.ContainerName, row.BlobId);
+                        var recordToUpdate = postResults.FirstOrDefault(p => p.Id == post.Id);
+                        var fileContent = recordToUpdate?.FileContents.FirstOrDefault(f => f.Id == row.Id);
+                        if (fileContent != null)
+                        { 
+                            fileContent.Url = url; 
+                        }
+                    }
+                }
+            }
             return Ok(postResults);
         }
 
         [Authorize]
-        [HttpGet("{id}", Name = "GetPostById")]
+        [HttpGet("{id}", Name = "PostLink")]
         public async Task<IActionResult> GetPostById(int id)
         {
             var postEntity = await _unitOfWork.PostRepository.GetFirstOrDefaultAsync(p => p.Id == id, "Creator,CreatorSubscriptionLevel,LikedByUsers,PostComments,FileContents");
@@ -99,7 +114,7 @@ namespace SubscribeForContentAPI.Controllers
 
             var dataToReturn = _mapper.Map<PostDTO>(postEntity);
 
-            return CreatedAtRoute("GetPostById", dataToReturn);
+            return CreatedAtRoute(routeName: "PostLink", routeValues: new { id = postEntity.Id }, value: dataToReturn);
         }
 
         private async Task<UserProfile> GetLoggedInUser()

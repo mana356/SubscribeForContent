@@ -23,6 +23,6 @@ namespace SFC_DTO.Post
         [Required]
         public int CreatorSubscriptionLevelId { get; set; }
 
-        public IList<IFormFile> FileContents { get; set; }
+        public IList<IFormFile>? FileContents { get; set; } = null;
     }
 }

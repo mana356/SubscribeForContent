@@ -2,13 +2,12 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  constructor(private http: HttpClient, private authService: AuthService) {}
+  constructor(private http: HttpClient) {}
 
   CreateUser(): Observable<any> {
     return this.http.post(
@@ -16,9 +15,7 @@ export class UserService {
       null
     );
   }
-  GetCurrentUserDetails(): Observable<any> {
-    return this.http.get(
-      environment.apiURL + 'Users/' + this.authService.userData.uid
-    );
+  GetUserDetails(userId: string): Observable<any> {
+    return this.http.get(environment.apiURL + 'Users/' + userId);
   }
 }

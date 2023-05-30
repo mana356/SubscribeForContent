@@ -4,7 +4,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Serilog;
 using SFC_DataAccess.Data;
+using SFC_Utility;
 using SubscribeForContentAPI.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -72,6 +74,15 @@ builder.Services.AddCors(options =>
       .AllowAnyHeader()
       .AllowCredentials());
 });
+
+var logger = new LoggerConfiguration()
+  .ReadFrom.Configuration(builder.Configuration)
+  .Enrich.FromLogContext()
+  .CreateLogger();
+builder.Logging.ClearProviders();
+builder.Logging.AddSerilog(logger);
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -90,5 +101,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.ConfigureExceptionHandler(logger);
 
 app.Run();

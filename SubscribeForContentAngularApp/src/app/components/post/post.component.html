@@ -1,33 +1,31 @@
 <mat-card class="post-card" *ngIf="post !== undefined">
   <mat-card-header>
     <span class="creator-details">
-      <a [routerLink]="['/creator', post.CreatorName]">{{
-        post.CreatorName
+      <a [routerLink]="['/creator', post.creator.userName]">{{
+        post.creator.name
       }}</a>
       posted on
-      {{ post.CreatedDate | date : "short" }}
+      {{ post.createdOn | date : "short" }}
     </span>
-    <mat-card-title class="post-title">{{ post.Title }}</mat-card-title>
+    <mat-card-title class="post-title">{{ post.title }}</mat-card-title>
     <mat-card-subtitle class="post-description">{{
-      post.Description
+      post.description
     }}</mat-card-subtitle>
   </mat-card-header>
-  <img
-    class="post-image"
-    mat-card-image
-    [src]="post.ImageUrl"
-    *ngIf="post.ImageUrl !== undefined"
-  />
+
   <mat-card-content
-    *ngIf="post.Content !== undefined"
+    *ngIf="post.content !== undefined && post.content !== null"
     class="post-content"
-    [innerHtml]="post.Content"
+    [innerHtml]="post.content"
   >
   </mat-card-content>
+  <app-file-content
+    *ngIf="post.fileContents !== undefined && post.fileContents !== null"
+    [fileList]="post.fileContents"
+  ></app-file-content>
+
   <mat-card-actions>
-    <mat-icon class="action-item" color="warn">{{
-      post.IsLiked ? "favorite" : "favorite_border"
-    }}</mat-icon>
+    <mat-icon class="action-item" color="warn">favorite_border</mat-icon>
     <mat-icon class="action-item" color="primary">chat_bubble_outline</mat-icon
     ><mat-icon class="action-item" color="black">share</mat-icon>
   </mat-card-actions></mat-card

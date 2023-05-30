@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
+import { Post } from 'src/app/models/Posts/post.model';
 
 @Injectable({
   providedIn: 'root',
@@ -9,7 +10,7 @@ import { environment } from '../../../environments/environment';
 export class PostService {
   constructor(private http: HttpClient) {}
 
-  GetUserHomeFeed(): Observable<any> {
-    return this.http.get(environment.apiURL + 'Posts');
+  GetUserHomeFeed(): Observable<Post[]> {
+    return this.http.get<Post[]>(environment.apiURL + 'Posts');
   }
 }

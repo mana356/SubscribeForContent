@@ -39,6 +39,8 @@ import { LoadingInterceptor } from './shared/interceptors/loading.interceptor';
 import { ErrorComponent } from './components/error/error.component';
 import { JWTTokenService } from './shared/services/jwt-token.service';
 import { LoaderService } from './shared/services/loader.service';
+import { FileContentComponent } from './components/file-content/file-content.component';
+import { NgImageSliderModule } from 'ng-image-slider';
 
 @NgModule({
   declarations: [
@@ -60,6 +62,7 @@ import { LoaderService } from './shared/services/loader.service';
     VerifyEmailComponent,
     SpinnerComponent,
     ErrorComponent,
+    FileContentComponent,
   ],
   imports: [
     BrowserModule,
@@ -76,6 +79,7 @@ import { LoaderService } from './shared/services/loader.service';
     AngularFireStorageModule,
     AngularFireDatabaseModule,
     HttpClientModule,
+    NgImageSliderModule,
   ],
   providers: [
     DatePipe,
