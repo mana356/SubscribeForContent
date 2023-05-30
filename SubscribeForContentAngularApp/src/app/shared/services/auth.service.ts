@@ -36,7 +36,7 @@ export class AuthService {
         user.getIdToken().then((token) => {
           this.jwtTokenService.setToken(token);
           //auto register or create the user (bare minimum profile) in app db if it doesn't already exist
-          this.userService.CreateUser().subscribe(() => {});
+          this.userService.CreateUserIfDoesNotExist().subscribe(() => {});
         });
       } else {
         this.localStorageService.set('user', 'null');

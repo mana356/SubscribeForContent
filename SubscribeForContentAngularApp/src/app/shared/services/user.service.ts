@@ -9,7 +9,7 @@ import { environment } from '../../../environments/environment';
 export class UserService {
   constructor(private http: HttpClient) {}
 
-  CreateUser(): Observable<any> {
+  CreateUserIfDoesNotExist(): Observable<any> {
     return this.http.post(
       environment.apiURL + 'Users/CreateUserIfDoesNotExist',
       null
