@@ -6,6 +6,7 @@ using SFC_DataEntities.Entities;
 using SFC_DTO.FileContent;
 using SFC_DTO.Post;
 using SFC_DTO.UserProfile;
+using SFC_Utility;
 using SubscribeForContentAPI.Services.Contracts;
 using System.Runtime.Intrinsics.Arm;
 using System.Security.Claims;
@@ -20,21 +21,23 @@ namespace SubscribeForContentAPI.Controllers
         private readonly IUnitOfWork _unitOfWork;
         private readonly IBlobStorage _blobStorage;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly UsernameGenerator _usernameGenerator;
 
-        public UserProfileController(IMapper mapper, IUnitOfWork unitOfWork, IBlobStorage blobStorage, IHttpContextAccessor httpContextAccessor)
+        public UserProfileController(IMapper mapper, IUnitOfWork unitOfWork, IBlobStorage blobStorage, IHttpContextAccessor httpContextAccessor, UsernameGenerator usernameGenerator)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
             _blobStorage = blobStorage;
             _httpContextAccessor = httpContextAccessor;
+            _usernameGenerator = usernameGenerator;
         }
 
         
         [Authorize]
-        [HttpGet("{id}", Name = "GetUserByFirebaseId")]
-        public async Task<IActionResult> GetUserByFirebaseId(string id)
+        [HttpGet("{username}", Name = "GetUserByUserName")]
+        public async Task<IActionResult> GetUserByUserName(string username)
         {
-            var userProfileEntity = await _unitOfWork.UserProfileRepository.GetFirstOrDefaultAsync(p => p.FirebaseUserId == id, "SubscriptionLevels,Subscriptions,Subscribers,ProfilePicture,CoverPicture");
+            var userProfileEntity = await _unitOfWork.UserProfileRepository.GetFirstOrDefaultAsync(p => p.UserName == username || p.FirebaseUserId == username, "SubscriptionLevels,Subscriptions,Subscribers,ProfilePicture,CoverPicture");
 
             if (userProfileEntity == null)
             {
@@ -72,12 +75,26 @@ namespace SubscribeForContentAPI.Controllers
                     var email = User?.Claims?.FirstOrDefault(claim => claim.Type == ClaimTypes.Email)?.Value ?? "";
                     var name = User?.Claims?.FirstOrDefault(claim => claim.Type == "name")?.Value ?? email.Split('@')[0];                    
                     var profilePicUrl = User?.Claims?.FirstOrDefault(claim => claim.Type == "picture")?.Value;
-                    
+
+                    var uniqueUserName = string.Empty;
+
+                    //get a unique username for the user
+                    while (uniqueUserName == string.Empty)
+                    {
+                        var newUserName = _usernameGenerator.GenerateName(false);
+                        var existingUserName = await _unitOfWork.UserProfileRepository.GetFirstOrDefaultAsync(u => u.UserName == newUserName);
+                        if (existingUserName == null)
+                        {
+                            uniqueUserName = newUserName;
+                        }
+                    }
+
                     var userProfileEntity = new UserProfile()
                     {
                         Name = name,
                         Email = email,
-                        FirebaseUserId = firebaseUserId
+                        FirebaseUserId = firebaseUserId,
+                        UserName = uniqueUserName
                     };
 
                     if (!string.IsNullOrEmpty(profilePicUrl))

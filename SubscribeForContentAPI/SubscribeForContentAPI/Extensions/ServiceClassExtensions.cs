@@ -1,5 +1,6 @@
 ﻿using SFC_DataAccess.Repository;
 using SFC_DataAccess.Repository.Contracts;
+using SFC_Utility;
 using SubscribeForContentAPI.Models;
 using SubscribeForContentAPI.Services;
 using SubscribeForContentAPI.Services.Contracts;
@@ -17,6 +18,7 @@ namespace SubscribeForContentAPI.Extensions
             services.Configure<ConnectionStrings>(configuration.GetSection("ConnectionStrings"));
             services.AddSingleton<IBlobStorage, BlobStorageService>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddScoped<UsernameGenerator>();
             return services;
         }
     }

@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
@@ -12,5 +12,11 @@ export class PostService {
 
   GetUserHomeFeed(): Observable<Post[]> {
     return this.http.get<Post[]>(environment.apiURL + 'Posts');
+  }
+  GetCreatorPosts(username: string): Observable<Post[]> {
+    let params = new HttpParams().set('CreatorUserName', username);
+    return this.http.get<Post[]>(environment.apiURL + 'Posts', {
+      params: params,
+    });
   }
 }

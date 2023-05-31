@@ -6,7 +6,9 @@ import {
   animate,
 } from '@angular/animations';
 import { Component } from '@angular/core';
+import { UserProfile } from 'src/app/models/user-profile.model';
 import { AuthService } from 'src/app/shared/services/auth.service';
+import { UserService } from 'src/app/shared/services/user.service';
 
 @Component({
   selector: 'app-app-layout',
@@ -51,8 +53,22 @@ import { AuthService } from 'src/app/shared/services/auth.service';
   ],
 })
 export class AppLayoutComponent {
-  constructor(public authService: AuthService) {}
+  currentUserProfile: UserProfile | undefined;
   isHamburguer = true;
+
+  constructor(
+    public authService: AuthService,
+    private userService: UserService
+  ) {
+    this.authService.afAuth.authState.subscribe((user) => {
+      if (user) {
+        this.userService.GetUserDetails(user.uid).subscribe((res) => {
+          this.currentUserProfile = res;
+        });
+      }
+    });
+  }
+
   onClick() {
     this.isHamburguer = !this.isHamburguer;
   }

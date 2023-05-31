@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
+import { UserProfile } from 'src/app/models/user-profile.model';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +16,7 @@ export class UserService {
       null
     );
   }
-  GetUserDetails(userId: string): Observable<any> {
-    return this.http.get(environment.apiURL + 'Users/' + userId);
+  GetUserDetails(username: string): Observable<UserProfile> {
+    return this.http.get<UserProfile>(environment.apiURL + 'Users/' + username);
   }
 }

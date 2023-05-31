@@ -37,7 +37,11 @@ namespace SFC_DataAccess.Repository
         {
             if (!string.IsNullOrEmpty(queryFilter.CreatorUserName))
             {
-                query = query.Where(p => p.Creator.UserName.Contains(queryFilter.CreatorUserName));
+                query = query.Where(p => p.Creator.UserName != null && p.Creator.UserName.Contains(queryFilter.CreatorUserName));
+            }
+            if (!string.IsNullOrEmpty(queryFilter.CreatorUserId))
+            {
+                query = query.Where(p => p.Creator.FirebaseUserId == queryFilter.CreatorUserName);
             }
             if (!string.IsNullOrEmpty(queryFilter.Title))
             {
@@ -53,10 +57,13 @@ namespace SFC_DataAccess.Repository
             }
             if (!string.IsNullOrEmpty(queryFilter.WildCard))
             {
-                query = query.Where(p => p.Creator.UserName.Contains(queryFilter.WildCard) 
-                                      || p.Title.Contains(queryFilter.WildCard)
-                                      || p.Description.Contains(queryFilter.WildCard)
-                                      || p.Content.Contains(queryFilter.WildCard));
+                query = query.Where(p => 
+                                        (p.Creator.UserName != null && p.Creator.UserName.ToLower().Contains(queryFilter.WildCard.ToLower())) 
+                                        || p.Creator.FirebaseUserId == queryFilter.CreatorUserName
+                                        || p.Title.ToLower().Contains(queryFilter.WildCard.ToLower())
+                                        || p.Description.ToLower().Contains(queryFilter.WildCard.ToLower())
+                                        || (p.Content != null && p.Content.ToLower().Contains(queryFilter.WildCard.ToLower()))
+                                      );
             }
 
 

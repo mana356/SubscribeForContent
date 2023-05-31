@@ -5,6 +5,8 @@ namespace SFC_DTO.Post
     {
         public string? CreatorUserName { get; set; }
 
+        public string? CreatorUserId { get; set; }
+
         public string? Title { get; set; }
 
         public string? Description { get; set; }

@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
-import { Creator } from 'src/app/models/creator.model';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { UserProfile } from 'src/app/models/user-profile.model';
 import { Post } from 'src/app/models/Posts/post.model';
+import { PostService } from 'src/app/shared/services/post.service';
+import { UserService } from 'src/app/shared/services/user.service';
 
 @Component({
   selector: 'app-creator',
@@ -8,18 +11,56 @@ import { Post } from 'src/app/models/Posts/post.model';
   styleUrls: ['./creator.component.scss'],
 })
 export class CreatorComponent {
+  constructor(
+    private userService: UserService,
+    private postService: PostService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {}
+  userName = '';
   creatorPosts: Post[] = [];
-  creator: Creator = {
-    Id: 1,
-    UserName: 'anamics93',
-    JoinedOn: new Date('2022-10-22'),
-    TotalPosts: 3,
-    BiographyText: 'Creating memes for fun since 2019!',
-    ProfilePictureUrl:
-      'https://images.pexels.com/photos/1674752/pexels-photo-1674752.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-    CoverPictureUrl:
-      'https://images.unsplash.com/photo-1623627484632-f041d1fb366d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8Y292ZXIlMjBwaG90b3xlbnwwfHwwfHw%3D&w=1000&q=80',
-  };
+  creator: UserProfile | undefined;
+  coverPictureUrl = '';
+  profilePictureUrl = '';
+  totalPosts = 0;
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.userName = this.route.snapshot.paramMap.get('username') ?? '';
+    if (
+      this.userName === '' ||
+      this.userName === null ||
+      this.userName === undefined
+    ) {
+      this.router.navigate(['sign-in']);
+    }
+    this.getCreatorDetails();
+    this.getPostsData();
+  }
+
+  getCreatorDetails() {
+    this.userService.GetUserDetails(this.userName).subscribe((result) => {
+      this.creator = result;
+      if (this.creator.profilePicture) {
+        this.profilePictureUrl = this.creator.profilePicture.url;
+      } else {
+        this.profilePictureUrl = '/assets/dummy-user.png';
+      }
+      if (this.creator.coverPicture) {
+        this.profilePictureUrl = this.creator.coverPicture.url;
+      } else {
+        this.coverPictureUrl = '/assets/solid-black.png';
+      }
+    });
+  }
+
+  getPostsData() {
+    this.postService.GetCreatorPosts(this.userName).subscribe((result) => {
+      this.creatorPosts = result.sort((a, b) => {
+        if (a.createdOn > b.createdOn) {
+          return -1;
+        } else return 1;
+      });
+      this.totalPosts = result.length;
+    });
+  }
 }

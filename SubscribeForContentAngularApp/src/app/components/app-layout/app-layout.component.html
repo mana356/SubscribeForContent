@@ -55,24 +55,19 @@
               alt="{{ user.displayName }}"
             />
           </div>
-          <mat-card-title>
+          <mat-card-title *ngIf="currentUserProfile">
             Hello,
-            <strong>{{
-              user.displayName ? user.displayName : "User"
-            }}</strong></mat-card-title
+            <strong>{{ currentUserProfile.name }}</strong></mat-card-title
           >
           <mat-card-subtitle>User Profile</mat-card-subtitle>
         </mat-card-header>
 
         <mat-card-content>
-          <p>
-            User ID: <strong>{{ user.uid }}</strong>
+          <p *ngIf="currentUserProfile">
+            User name: <strong>{{ currentUserProfile.userName }}</strong>
           </p>
           <p>
             Email: <strong>{{ user.email }}</strong>
-          </p>
-          <p>
-            Email Verified: <strong>{{ user.emailVerified }}</strong>
           </p>
         </mat-card-content>
         <mat-card-actions class="user-card-actions">

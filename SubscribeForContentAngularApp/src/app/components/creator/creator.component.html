@@ -1,14 +1,14 @@
-<div class="container">
+<div class="container" *ngIf="creator !== undefined">
   <mat-card
     class="creator-bio"
-    [style.background]="'url(' + creator.CoverPictureUrl + ')'"
+    [style.background]="'url(' + coverPictureUrl + ')'"
   >
     <div class="creator-name-div">
-      <h1 class="creator-name">{{ creator.UserName }}</h1>
+      <h1 class="creator-name">{{ creator.userName }}</h1>
     </div>
 
     <div class="profile-picture-div">
-      <img class="creator-profile-picture" [src]="creator.ProfilePictureUrl" />
+      <img class="creator-profile-picture" [src]="profilePictureUrl" />
     </div>
     <button mat-raised-button color="accent" class="subscription-btn">
       Subscribe
@@ -16,22 +16,26 @@
   </mat-card>
   <mat-card class="creator-info">
     <ul style="list-style: none; padding-inline-start: 0">
-      <li>
-        <span>{{ creator.BiographyText }}</span>
+      <li *ngIf="creator.bio !== null">
+        <span>{{ creator.bio }}</span>
       </li>
-      <li>
-        <span class="info-label">Total Posts: </span>{{ creator.TotalPosts }}
-      </li>
+      <li><span class="info-label">Total Posts: </span>{{ totalPosts }}</li>
       <li>
         <span class="info-label">Joined on: </span
-        >{{ creator.JoinedOn | date : "mediumDate" }}
+        >{{ creator.createdOn | date : "mediumDate" }}
       </li>
     </ul>
   </mat-card>
-  <div class="home-feed">
+  <div class="creator-posts">
     <app-post
       *ngFor="let postItem of creatorPosts"
       [post]="postItem"
     ></app-post>
+    <div class="empty" *ngIf="creatorPosts.length === 0">
+      <span>Crickets....</span>
+    </div>
+  </div>
+  <div class="creator-posts-ending" *ngIf="creatorPosts.length !== 0">
+    <span>That's all folks!</span>
   </div>
 </div>
