@@ -13,3 +13,5 @@
 /SubscribeForContentAPI/SFC_Utility/obj
 /SubscribeForContentAPI/SubscribeForContentAPI/bin
 /SubscribeForContentAPI/SubscribeForContentAPI/obj
+/SubscribeForContentAPI/SFC_BlobStorageService/obj
+/SubscribeForContentAPI/SFC_BlobStorageService/bin/Debug/net6.0

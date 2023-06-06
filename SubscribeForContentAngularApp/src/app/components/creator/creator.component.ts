@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { UserProfile } from 'src/app/models/user-profile.model';
+import { UserProfile } from 'src/app/models/UserProfile/user-profile.model';
 import { Post } from 'src/app/models/Posts/post.model';
 import { PostService } from 'src/app/shared/services/post.service';
 import { UserService } from 'src/app/shared/services/user.service';
@@ -23,6 +23,7 @@ export class CreatorComponent {
   coverPictureUrl = '';
   profilePictureUrl = '';
   totalPosts = 0;
+  myProfileFlag = false;
 
   ngOnInit() {
     this.userName = this.route.snapshot.paramMap.get('username') ?? '';
@@ -33,6 +34,12 @@ export class CreatorComponent {
     ) {
       this.router.navigate(['sign-in']);
     }
+    this.userService.CurrentUserProfile.subscribe((userData) => {
+      if (userData != undefined) {
+        this.myProfileFlag =
+          userData.userName.toLowerCase() === this.userName.toLocaleLowerCase();
+      }
+    });
     this.getCreatorDetails();
     this.getPostsData();
   }

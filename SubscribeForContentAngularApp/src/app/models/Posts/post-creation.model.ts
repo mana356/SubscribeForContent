@@ -1,7 +1,7 @@
-export interface PostCreation {
+export interface PostCreationDto {
   Title: string;
   Description: string;
-  MediaContent?: File;
+  FileContents?: File[];
   Content?: string;
-  SubscriptionLevel: number;
+  CreatorSubscriptionLevelId: number;
 }

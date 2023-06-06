@@ -6,7 +6,7 @@ import {
   animate,
 } from '@angular/animations';
 import { Component } from '@angular/core';
-import { UserProfile } from 'src/app/models/user-profile.model';
+import { UserProfile } from 'src/app/models/UserProfile/user-profile.model';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { UserService } from 'src/app/shared/services/user.service';
 
@@ -62,7 +62,7 @@ export class AppLayoutComponent {
   ) {
     this.authService.afAuth.authState.subscribe((user) => {
       if (user) {
-        this.userService.GetUserDetails(user.uid).subscribe((res) => {
+        this.userService.CurrentUserProfile.subscribe((res) => {
           this.currentUserProfile = res;
         });
       }

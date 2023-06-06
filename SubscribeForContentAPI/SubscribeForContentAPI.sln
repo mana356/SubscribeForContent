@@ -3,15 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SubscribeForContentAPI", "SubscribeForContentAPI\SubscribeForContentAPI.csproj", "{A20D6DD9-9194-41CB-8C80-B6B9F8968A26}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SubscribeForContentAPI", "SubscribeForContentAPI\SubscribeForContentAPI.csproj", "{A20D6DD9-9194-41CB-8C80-B6B9F8968A26}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFC_DataAccess", "SFC_DataAccess\SFC_DataAccess.csproj", "{41E018AA-52F5-4855-A8D0-BA24B9462448}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SFC_DataAccess", "SFC_DataAccess\SFC_DataAccess.csproj", "{41E018AA-52F5-4855-A8D0-BA24B9462448}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFC_DataEntities", "SFC_DataEntities\SFC_DataEntities.csproj", "{18A56517-A049-4CD2-82B9-7AEEC043CA41}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SFC_DataEntities", "SFC_DataEntities\SFC_DataEntities.csproj", "{18A56517-A049-4CD2-82B9-7AEEC043CA41}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFC_DTO", "SFC_DTO\SFC_DTO.csproj", "{0F30EEF4-AA0A-4DC2-9B39-10F5F484E825}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SFC_DTO", "SFC_DTO\SFC_DTO.csproj", "{0F30EEF4-AA0A-4DC2-9B39-10F5F484E825}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFC_Utility", "SFC_Utility\SFC_Utility.csproj", "{EB8E2474-88EA-4909-86BA-8CA68C230997}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SFC_Utility", "SFC_Utility\SFC_Utility.csproj", "{EB8E2474-88EA-4909-86BA-8CA68C230997}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFC_BlobStorageService", "SFC_BlobStorageService\SFC_BlobStorageService.csproj", "{2E98C6AA-F908-4D2B-B798-F6AB0AFD4B55}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{EB8E2474-88EA-4909-86BA-8CA68C230997}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EB8E2474-88EA-4909-86BA-8CA68C230997}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EB8E2474-88EA-4909-86BA-8CA68C230997}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E98C6AA-F908-4D2B-B798-F6AB0AFD4B55}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E98C6AA-F908-4D2B-B798-F6AB0AFD4B55}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E98C6AA-F908-4D2B-B798-F6AB0AFD4B55}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E98C6AA-F908-4D2B-B798-F6AB0AFD4B55}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

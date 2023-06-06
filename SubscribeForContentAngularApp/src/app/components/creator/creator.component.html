@@ -10,8 +10,22 @@
     <div class="profile-picture-div">
       <img class="creator-profile-picture" [src]="profilePictureUrl" />
     </div>
-    <button mat-raised-button color="accent" class="subscription-btn">
+    <button
+      *ngIf="!myProfileFlag"
+      mat-raised-button
+      color="accent"
+      class="subscription-btn"
+    >
       Subscribe
+    </button>
+    <button
+      *ngIf="myProfileFlag"
+      mat-raised-button
+      class="subscription-btn"
+      [routerLink]="['/create-post']"
+      color="accent"
+    >
+      Create Post
     </button>
   </mat-card>
   <mat-card class="creator-info">

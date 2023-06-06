@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using SFC_DataEntities.Entities;
+using SubscribeForContentAPI.Services.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,10 +14,12 @@ namespace SFC_DataAccess.Data
     public class SFCDBContext : DbContext
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
-        public SFCDBContext(DbContextOptions<SFCDBContext> options, IHttpContextAccessor httpContextAccessor)
+        private readonly IBlobStorage _blobStorage;
+        public SFCDBContext(DbContextOptions<SFCDBContext> options, IHttpContextAccessor httpContextAccessor, IBlobStorage blobStorage)
             : base(options)
         {
             _httpContextAccessor = httpContextAccessor;
+            _blobStorage = blobStorage;
         }
 
         public DbSet<Post> Post { get; set; }
@@ -129,7 +132,8 @@ namespace SFC_DataAccess.Data
 
                 modelBuilder.Entity<Post>()
                     .HasMany(p => p.PostComments)
-                    .WithOne(c => c.Post);
+                    .WithOne(c => c.Post)
+                    .OnDelete(DeleteBehavior.Cascade); 
 
                 modelBuilder.Entity<Post>()
                     .HasOne(e => e.Creator)
@@ -139,7 +143,7 @@ namespace SFC_DataAccess.Data
                 modelBuilder.Entity<Post>()
                     .HasMany(p => p.FileContents)
                     .WithOne(f => f.Post)
-                    .OnDelete(DeleteBehavior.NoAction);
+                    .OnDelete(DeleteBehavior.Cascade);
 
             #endregion
 
@@ -157,5 +161,28 @@ namespace SFC_DataAccess.Data
                     .OnDelete(DeleteBehavior.NoAction);
             #endregion
         }
+
+        //public override async Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default(CancellationToken))
+        //{
+        //    ChangeTracker.DetectChanges();
+        //    var deletedResources = ChangeTracker.Entries().Where(x => x.Entity.GetType().Name == "FileContent" && x.State == EntityState.Deleted).ToList();
+
+        //    if (deletedResources != null && deletedResources.Any())
+        //    {
+        //        foreach(var fileResource in deletedResources)
+        //        {
+        //            var containerName = fileResource.Properties.FirstOrDefault(p => p.Metadata.Name == "ContainerName")?.OriginalValue;
+        //            var fileName = fileResource.Properties.FirstOrDefault(p => p.Metadata.Name == "BlobId")?.OriginalValue;
+        //            if(containerName != null && fileName != null)
+        //            { 
+        //                await _blobStorage.DeleteBlob(containerName.ToString(), fileName.ToString()); 
+        //            }
+                    
+        //        }
+        //    }
+
+        //    var result = await base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+        //    return result;
+        //}
     }
 }

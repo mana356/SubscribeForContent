@@ -1,4 +1,4 @@
-import { FileContent } from './Posts/post.model';
+import { FileContent } from '../Posts/post.model';
 
 export interface UserProfile {
   id: number;

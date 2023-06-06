@@ -28,9 +28,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SFC_BlobStorageService\SFC_BlobStorageService.csproj" />
     <ProjectReference Include="..\SFC_DataAccess\SFC_DataAccess.csproj" />
     <ProjectReference Include="..\SFC_DTO\SFC_DTO.csproj" />
     <ProjectReference Include="..\SFC_Utility\SFC_Utility.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Services\" />
   </ItemGroup>
 
 </Project>

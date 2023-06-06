@@ -1,16 +1,44 @@
 <mat-card class="post-card" *ngIf="post !== undefined">
   <mat-card-header>
-    <span class="creator-details">
-      <a [routerLink]="['/creator', post.creator.userName]">{{
-        post.creator.name
-      }}</a>
-      posted on
-      {{ post.createdOn | date : "short" }}
-    </span>
-    <mat-card-title class="post-title">{{ post.title }}</mat-card-title>
-    <mat-card-subtitle class="post-description">{{
-      post.description
-    }}</mat-card-subtitle>
+    <div style="display: inline-block">
+      <div style="width: 95%; float: left">
+        <span class="creator-details">
+          <a [routerLink]="['/creator', post.creator.userName]">{{
+            post.creator.name
+          }}</a>
+          posted on
+          {{ post.createdOn | date : "short" }}
+        </span>
+        <mat-card-title class="post-title">{{ post.title }}</mat-card-title>
+        <mat-card-subtitle class="post-description">{{
+          post.description
+        }}</mat-card-subtitle>
+      </div>
+      <div style="width: 5%; float: right">
+        <button
+          mat-icon-button
+          [matMenuTriggerFor]="menu"
+          style="float: right"
+          aria-label="Example icon-button with a menu"
+        >
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item>
+            <mat-icon>open_in_new</mat-icon>
+            <span>Open Post</span>
+          </button>
+          <button
+            mat-menu-item
+            *ngIf="isAuthorizedToDelete"
+            (click)="deletePost()"
+          >
+            <mat-icon>delete</mat-icon>
+            <span>Delete Post</span>
+          </button>
+        </mat-menu>
+      </div>
+    </div>
   </mat-card-header>
 
   <mat-card-content

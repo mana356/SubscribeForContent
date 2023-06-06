@@ -4,7 +4,7 @@ using Azure.Storage.Sas;
 using Microsoft.AspNetCore.StaticFiles;
 using SubscribeForContentAPI.Services.Contracts;
 
-namespace SubscribeForContentAPI.Services
+namespace SFC_BlobStorageService
 {
     public class BlobStorageService : IBlobStorage
     {
@@ -41,6 +41,17 @@ namespace SubscribeForContentAPI.Services
             await UploadFileAsync(containerName, fileName, data);
 
             return fileName;
+        }
+
+        public async Task DeleteBlob(string containerName, string fileName)
+        {
+            containerName = containerName.Replace(" ", "-").ToLower();
+
+            var containerClient = _blobService.GetBlobContainerClient(containerName);
+            await containerClient.CreateIfNotExistsAsync(PublicAccessType.None).ConfigureAwait(false);
+
+            var blobClient = containerClient.GetBlobClient(fileName);
+            await blobClient.DeleteAsync();
         }
 
         public async Task<string> GetSasUrlAsync(string containerName, string fileName)

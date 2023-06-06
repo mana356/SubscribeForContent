@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SFC_BlobStorageService\SFC_BlobStorageService.csproj" />
     <ProjectReference Include="..\SFC_DataEntities\SFC_DataEntities.csproj" />
     <ProjectReference Include="..\SFC_DTO\SFC_DTO.csproj" />
     <ProjectReference Include="..\SFC_Utility\SFC_Utility.csproj" />

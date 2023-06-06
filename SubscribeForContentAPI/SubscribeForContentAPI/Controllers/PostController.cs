@@ -117,6 +117,29 @@ namespace SubscribeForContentAPI.Controllers
             return CreatedAtRoute(routeName: "PostLink", routeValues: new { id = postEntity.Id }, value: dataToReturn);
         }
 
+        [Authorize]
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeletePost(int id)
+        {
+            var postEntity = await _unitOfWork.PostRepository.GetFirstOrDefaultAsync(x => x.Id == id, "FileContents");
+            if (postEntity == null)
+            {
+                return NotFound();
+            }
+            
+            if (postEntity.FileContents != null && postEntity.FileContents.Any())
+            {
+                foreach (var file in postEntity.FileContents)
+                {
+                    await _blobStorage.DeleteBlob(file.ContainerName, file.BlobId);
+                }
+            }
+
+            _unitOfWork.PostRepository.Remove(id);
+            await _unitOfWork.SaveAsync();
+            return NoContent();
+        }
+
         private async Task<UserProfile> GetLoggedInUser()
         {
             var firebaseUserId = _httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;

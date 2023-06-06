@@ -5,5 +5,6 @@
         Task<string> UploadFileAsync(string containerName, Stream data, string fileFormat);
         Task<string> UploadFileAsync(string containerName, string fileName, Stream data);
         Task<string> GetSasUrlAsync(string containerName, string fileName);
+        Task DeleteBlob(string containerName, string fileName);
     }
 }
