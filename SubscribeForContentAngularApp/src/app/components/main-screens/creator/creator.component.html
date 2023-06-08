@@ -12,6 +12,7 @@
     </div>
     <button
       *ngIf="!myProfileFlag"
+      [routerLink]="['/subscribe', creator.userName]"
       mat-raised-button
       color="accent"
       class="subscription-btn"

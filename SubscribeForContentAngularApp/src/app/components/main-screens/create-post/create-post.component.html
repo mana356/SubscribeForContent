@@ -10,7 +10,7 @@
             You must provide a <strong>title</strong>
           </mat-error>
           <mat-error *ngIf="errorHandling('title', 'minlength')">
-            Title must be at least <strong>6</strong> characters
+            Title must be at least <strong>3</strong> characters
           </mat-error>
           <mat-error *ngIf="errorHandling('title', 'maxlength')">
             Title must not exceed <strong>100</strong> characters
@@ -27,7 +27,7 @@
             You must provide a <strong>description</strong>
           </mat-error>
           <mat-error *ngIf="errorHandling('description', 'minlength')">
-            Description must be at least <strong>6</strong> characters
+            Description must be at least <strong>3</strong> characters
           </mat-error>
           <mat-error *ngIf="errorHandling('description', 'maxlength')">
             Description must not exceed <strong>100</strong> characters

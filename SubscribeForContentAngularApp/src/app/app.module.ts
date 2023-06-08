@@ -8,7 +8,7 @@ import { UserHomeComponent } from './components/main-screens/user-home/user-home
 import { AdminHomeComponent } from './components/main-screens/admin-home/admin-home.component';
 import { CreatePostComponent } from './components/main-screens/create-post/create-post.component';
 import { UserProfileComponent } from './components/main-screens/user-profile/user-profile.component';
-import { SubscriptionsComponent } from './components/subscriptions/subscriptions.component';
+import { SubscribeToCreatorComponent } from './components/main-screens/subscribe-to-creator/subscribe-to-creator.component';
 import { PaymentComponent } from './components/payment/payment.component';
 import { PostComponent } from './components/post-content/post/post.component';
 import { MaterialModule } from './material/material.module';
@@ -50,7 +50,7 @@ import { NgImageSliderModule } from 'ng-image-slider';
     AdminHomeComponent,
     CreatePostComponent,
     UserProfileComponent,
-    SubscriptionsComponent,
+    SubscribeToCreatorComponent,
     PaymentComponent,
     PostComponent,
     CreatorComponent,

@@ -43,7 +43,7 @@ export class CreatePostComponent implements OnInit {
         '',
         [
           Validators.required,
-          Validators.minLength(6),
+          Validators.minLength(3),
           Validators.maxLength(100),
         ],
       ],
@@ -51,7 +51,7 @@ export class CreatePostComponent implements OnInit {
         '',
         [
           Validators.required,
-          Validators.minLength(6),
+          Validators.minLength(3),
           Validators.maxLength(100),
         ],
       ],
@@ -98,7 +98,6 @@ export class CreatePostComponent implements OnInit {
   }
 
   onSubmit(): void {
-    debugger;
     this.submitted = true;
 
     if (this.form.invalid) {

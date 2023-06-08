@@ -30,7 +30,6 @@ export class AuthService {
     logged in and setting up null when logged out */
     this.afAuth.authState.subscribe((user) => {
       if (user) {
-        debugger;
         this.userData = user;
         this.localStorageService.set('user', JSON.stringify(this.userData));
         JSON.parse(this.localStorageService.get('user')!);

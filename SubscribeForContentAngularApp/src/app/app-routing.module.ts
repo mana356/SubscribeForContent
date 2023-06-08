@@ -4,7 +4,7 @@ import { AppLayoutComponent } from './components/general/app-layout/app-layout.c
 import { UserHomeComponent } from './components/main-screens/user-home/user-home.component';
 import { AdminHomeComponent } from './components/main-screens/admin-home/admin-home.component';
 import { PostComponent } from './components/post-content/post/post.component';
-import { SubscriptionsComponent } from './components/subscriptions/subscriptions.component';
+import { SubscribeToCreatorComponent } from './components/main-screens/subscribe-to-creator/subscribe-to-creator.component';
 import { UserProfileComponent } from './components/main-screens/user-profile/user-profile.component';
 import { CreatePostComponent } from './components/main-screens/create-post/create-post.component';
 import { PaymentComponent } from './components/payment/payment.component';
@@ -34,12 +34,12 @@ const routes: Routes = [
       },
       { path: 'post', component: PostComponent, canActivate: [AuthGuard] },
       {
-        path: 'subscriptions',
-        component: SubscriptionsComponent,
+        path: 'subscribe/:username',
+        component: SubscribeToCreatorComponent,
         canActivate: [AuthGuard],
       },
       {
-        path: 'user-profile',
+        path: 'account-settings',
         component: UserProfileComponent,
         canActivate: [AuthGuard],
       },

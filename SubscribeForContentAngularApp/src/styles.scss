@@ -52,3 +52,10 @@ body {
   color: white !important;
   border: none !important;
 }
+
+.mdc-text-field--disabled .mdc-text-field__input {
+  color: rgba(0, 0, 0, 0.68);
+}
+.mdc-text-field--disabled .mdc-floating-label {
+  color: rgba(0, 0, 0, 0.68);
+}

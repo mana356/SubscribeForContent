@@ -1,1 +1,109 @@
-<p>user-profile works!</p>
+<div class="account-settings-container">
+  <mat-card class="account-settings-card">
+    <mat-card-header>
+      <mat-card-title> <h3>Account Settings</h3></mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="accountSettingsFormGroup">
+        <mat-form-field>
+          <mat-label>Email</mat-label>
+          <input
+            type="text"
+            disabled
+            matInput
+            [value]="currentUser !== undefined ? currentUser.email : ''"
+          />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Username</mat-label>
+          <input type="text" required matInput formControlName="username" />
+          <mat-error *ngIf="errorHandling('username', 'required')">
+            You must provide an <strong>username</strong>
+          </mat-error>
+          <mat-error *ngIf="errorHandling('username', 'minlength')">
+            Username must be at least <strong>3</strong> characters
+          </mat-error>
+          <mat-error *ngIf="errorHandling('username', 'maxlength')">
+            Username must not exceed <strong>30</strong> characters
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Full Name</mat-label>
+          <input type="text" required matInput formControlName="name" />
+          <mat-error *ngIf="errorHandling('name', 'required')">
+            You must provide a <strong>full name</strong>
+          </mat-error>
+          <mat-error *ngIf="errorHandling('name', 'minlength')">
+            Full name must be at least <strong>3</strong> characters
+          </mat-error>
+          <mat-error *ngIf="errorHandling('name', 'maxlength')">
+            Full name must not exceed <strong>255</strong> characters
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Date of Birth</mat-label>
+          <input
+            matInput
+            disabled
+            [min]="minDate"
+            [max]="maxDate"
+            [matDatepicker]="picker"
+          />
+          <mat-hint>MM/DD/YYYY</mat-hint>
+          <mat-datepicker-toggle
+            matIconSuffix
+            [for]="picker"
+            [disabled]="false"
+          ></mat-datepicker-toggle>
+          <mat-datepicker
+            #picker
+            [disabled]="false"
+            startView="multi-year"
+          ></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Biography</mat-label>
+          <textarea matInput formControlName="bio"></textarea>
+          <mat-error *ngIf="errorHandling('bio', 'maxlength')">
+            Biography must not exceed <strong>500</strong> characters
+          </mat-error>
+        </mat-form-field>
+      </form>
+      <div mat-card-avatar class="user-profile-picture">
+        <img
+          mat-card-image
+          [src]="
+            currentUser !== undefined && currentUser.profilePicture?.url
+              ? currentUser.profilePicture?.url
+              : '/assets/dummy-user.png'
+          "
+        />
+      </div>
+    </mat-card-content>
+    <mat-card-actions class="actions-div">
+      <div class="action-group-div">
+        <button mat-raised-button color="primary">Save</button>
+        <button mat-raised-button color="default">Cancel</button>
+      </div>
+    </mat-card-actions>
+  </mat-card>
+</div>
+<div class="subscriptions-container">
+  <mat-card class="subscriptions-card">
+    <mat-card-header
+      ><mat-card-title>
+        <h3>Active Subscriptions</h3></mat-card-title
+      ></mat-card-header
+    >
+  </mat-card>
+</div>
+
+<div class="subscribers-container">
+  <mat-card class="subscribers-card">
+    <mat-card-header
+      ><mat-card-title>
+        <h3>Current Subscribers</h3></mat-card-title
+      ></mat-card-header
+    >
+  </mat-card>
+</div>
