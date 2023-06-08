@@ -1,20 +1,20 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AppLayoutComponent } from './components/app-layout/app-layout.component';
-import { UserHomeComponent } from './components/user-home/user-home.component';
-import { AdminHomeComponent } from './components/admin-home/admin-home.component';
-import { PostComponent } from './components/post/post.component';
+import { AppLayoutComponent } from './components/general/app-layout/app-layout.component';
+import { UserHomeComponent } from './components/main-screens/user-home/user-home.component';
+import { AdminHomeComponent } from './components/main-screens/admin-home/admin-home.component';
+import { PostComponent } from './components/post-content/post/post.component';
 import { SubscriptionsComponent } from './components/subscriptions/subscriptions.component';
-import { UserProfileComponent } from './components/user-profile/user-profile.component';
-import { CreatePostComponent } from './components/create-post/create-post.component';
+import { UserProfileComponent } from './components/main-screens/user-profile/user-profile.component';
+import { CreatePostComponent } from './components/main-screens/create-post/create-post.component';
 import { PaymentComponent } from './components/payment/payment.component';
-import { CreatorComponent } from './components/creator/creator.component';
+import { CreatorComponent } from './components/main-screens/creator/creator.component';
 import { ForgotPasswordComponent } from './components/firebase/forgot-password/forgot-password.component';
 import { SignInComponent } from './components/firebase/sign-in/sign-in.component';
 import { SignUpComponent } from './components/firebase/sign-up/sign-up.component';
 import { VerifyEmailComponent } from './components/firebase/verify-email/verify-email.component';
-import { AuthGuard } from './shared/guard/auth.guard';
-import { ErrorComponent } from './components/error/error.component';
+import { AuthGuard } from './shared/guards/auth.guard';
+import { ErrorComponent } from './components/general/error/error.component';
 
 const routes: Routes = [
   {

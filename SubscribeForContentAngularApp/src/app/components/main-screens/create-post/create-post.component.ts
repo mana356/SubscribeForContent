@@ -9,7 +9,7 @@ import {
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { PostCreationDto } from 'src/app/models/Posts/post-creation.model';
-import { SubscriptionLevelDto } from 'src/app/models/subscription-level.model';
+import { SubscriptionLevelDto } from 'src/app/models/UserProfile/subscription-level.model';
 import { PostService } from 'src/app/shared/services/post.service';
 import { UserService } from 'src/app/shared/services/user.service';
 

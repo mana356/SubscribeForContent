@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { Post } from 'src/app/models/Posts/post.model';
 import { PostCreationDto } from 'src/app/models/Posts/post-creation.model';
-import { SubscriptionLevelDto } from 'src/app/models/subscription-level.model';
+import { SubscriptionLevelDto } from 'src/app/models/UserProfile/subscription-level.model';
 
 @Injectable({
   providedIn: 'root',
