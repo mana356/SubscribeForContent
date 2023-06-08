@@ -4,7 +4,7 @@
       <div style="width: 95%; float: left">
         <span class="creator-details">
           <a [routerLink]="['/creator', post.creator.userName]">{{
-            post.creator.name
+            post.creator.userName
           }}</a>
           posted on
           {{ post.createdOn | date : "short" }}
