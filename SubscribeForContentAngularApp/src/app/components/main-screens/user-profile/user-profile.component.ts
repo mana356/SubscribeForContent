@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { UserProfileUpdateDto } from 'src/app/models/UserProfile/user-profile-update.model';
 import { UserProfile } from 'src/app/models/UserProfile/user-profile.model';
 import { UserService } from 'src/app/shared/services/user.service';
 
@@ -15,7 +17,8 @@ export class UserProfileComponent {
   currentUser: UserProfile | undefined;
   constructor(
     private formBuilder: FormBuilder,
-    private userService: UserService
+    private userService: UserService,
+    private snackBar: MatSnackBar
   ) {
     this.accountSettingsFormGroup = this.formBuilder.group({
       username: [
@@ -34,8 +37,9 @@ export class UserProfileComponent {
           Validators.maxLength(255),
         ],
       ],
-      dateOfBirth: [''],
+      dateOfBirth: [new Date(), [Validators.required]],
       bio: ['', [Validators.maxLength(500)]],
+      isACreator: [false],
     });
   }
 
@@ -50,6 +54,9 @@ export class UserProfileComponent {
       this.accountSettingsFormGroup.controls['dateOfBirth'].setValue(
         user?.dateOfBirth
       );
+      this.accountSettingsFormGroup.controls['isACreator'].setValue(
+        user?.isACreator
+      );
     });
   }
 
@@ -62,5 +69,54 @@ export class UserProfileComponent {
       this.accountSettingsFormGroup.markAllAsTouched();
     }
     return this.accountSettingsFormGroup.valid;
+  }
+
+  openSnackBar(message: string, type?: string, durationInSeconds?: number) {
+    let panelClass = 'default-snackbar';
+    if (type) {
+      if (type === 'success') {
+        panelClass = 'success-snackbar';
+      } else {
+        panelClass = 'failure-snackbar';
+      }
+    }
+    if (durationInSeconds) {
+      this.snackBar.open(message, 'OK', {
+        duration: 1000 * durationInSeconds,
+        panelClass: [panelClass, 'login-snackbar'],
+      });
+    } else {
+      this.snackBar.open(message, 'OK', {
+        panelClass: [panelClass, 'login-snackbar'],
+      });
+    }
+  }
+
+  onSubmit(): void {
+    if (!this.validate()) {
+      return;
+    }
+    const profileData: UserProfileUpdateDto = {
+      Name: this.accountSettingsFormGroup.controls['name'].value,
+      UserName: this.accountSettingsFormGroup.controls['username'].value,
+      Bio: this.accountSettingsFormGroup.controls['bio'].value,
+      DateOfBirth:
+        this.accountSettingsFormGroup.controls[
+          'dateOfBirth'
+        ].value.toDateString(),
+      IsACreator: this.accountSettingsFormGroup.controls['isACreator'].value,
+    };
+
+    this.userService.UpdateUserProfile(profileData).subscribe(
+      (res) => {
+        this.openSnackBar('Settings saved successfully!', 'success', 10);
+      },
+      (error) => {
+        this.openSnackBar(
+          'Some error occurred! Please see following details: \n' +
+            error.error.errorMessage
+        );
+      }
+    );
   }
 }

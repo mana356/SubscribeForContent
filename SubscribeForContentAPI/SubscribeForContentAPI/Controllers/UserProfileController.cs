@@ -20,15 +20,15 @@ namespace SubscribeForContentAPI.Controllers
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IBlobStorage _blobStorage;
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IAuthService _authService;
         private readonly UsernameGenerator _usernameGenerator;
 
-        public UserProfileController(IMapper mapper, IUnitOfWork unitOfWork, IBlobStorage blobStorage, IHttpContextAccessor httpContextAccessor, UsernameGenerator usernameGenerator)
+        public UserProfileController(IMapper mapper, IUnitOfWork unitOfWork, IBlobStorage blobStorage, IAuthService authService, UsernameGenerator usernameGenerator)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
             _blobStorage = blobStorage;
-            _httpContextAccessor = httpContextAccessor;
+            _authService = authService;
             _usernameGenerator = usernameGenerator;
         }
 
@@ -43,18 +43,16 @@ namespace SubscribeForContentAPI.Controllers
             {
                 return NotFound();
             }
-            var userId = _httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var userId = _authService.GetFirebaseUserId();
 
             var dataToReturn = _mapper.Map<UserProfileDTO>(userProfileEntity);
             if (userProfileEntity.ProfilePicture != null && dataToReturn.ProfilePicture != null)
             {
-                var url = await _blobStorage.GetSasUrlAsync(userProfileEntity.ProfilePicture.ContainerName, userProfileEntity.ProfilePicture.BlobId);
-                dataToReturn.ProfilePicture.Url = url;
+                dataToReturn.ProfilePicture.Url = await UpdatePictureLink(userProfileEntity.ProfilePicture);
             }
             if (userProfileEntity.CoverPicture != null && dataToReturn.CoverPicture != null)
             {
-                var url = await _blobStorage.GetSasUrlAsync(userProfileEntity.CoverPicture.ContainerName, userProfileEntity.CoverPicture.BlobId);
-                dataToReturn.CoverPicture.Url = url;
+                dataToReturn.CoverPicture.Url = await UpdatePictureLink(userProfileEntity.CoverPicture);
             }
 
             return Ok(dataToReturn);
@@ -64,8 +62,8 @@ namespace SubscribeForContentAPI.Controllers
         [HttpPost("CreateUserIfDoesNotExist")]
         public async Task<IActionResult> CreateUser()
         {
-            var firebaseUserId = _httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            
+            var firebaseUserId = _authService.GetFirebaseUserId();
+
 
             if (!string.IsNullOrEmpty(firebaseUserId))
             {
@@ -102,8 +100,8 @@ namespace SubscribeForContentAPI.Controllers
                         var fileContent = new FileContent()
                         {
                             Name = $"Profile Picture - {name}",
-                            Type = "UserProfilePicture",
-                            ContainerName = "UserProfilePicture",
+                            Type = Constants.ProfilePicContainer,
+                            ContainerName = Constants.ProfilePicContainer,
                             Extension = ".png"
                         };
 
@@ -124,6 +122,95 @@ namespace SubscribeForContentAPI.Controllers
                 }
             }
             return NoContent();
+        }
+
+        [Authorize]
+        [HttpPut]
+        public async Task<IActionResult> UpdateUserProfile([FromForm] UserProfileUpdateDTO userProfileUpdateDto)
+        {
+            var firebaseUserId = _authService.GetFirebaseUserId();
+            if (string.IsNullOrEmpty(firebaseUserId))
+            {
+                return NotFound();
+            }
+
+            var existingUser = await _unitOfWork.UserProfileRepository.GetFirstOrDefaultAsync(u => u.FirebaseUserId == firebaseUserId);
+            if (existingUser == null)
+            {
+                return NotFound();
+            }
+
+            _mapper.Map(userProfileUpdateDto, existingUser);
+
+            if (userProfileUpdateDto.ProfilePicture != null)
+            {
+                var profilePicFile = new {
+
+                    fileContent = new FileContent()
+                    {
+                        Name = Path.GetFileNameWithoutExtension(userProfileUpdateDto.ProfilePicture.FileName),
+                        Type = Constants.ProfilePicContainer,
+                        Extension = Path.GetExtension(userProfileUpdateDto.ProfilePicture.FileName)
+                    }
+                    ,
+                    file = userProfileUpdateDto.ProfilePicture
+                };
+
+                profilePicFile.fileContent.ContainerName = Constants.ProfilePicContainer;
+                profilePicFile.fileContent.BlobId = await _blobStorage.UploadFileAsync(profilePicFile.fileContent.ContainerName, profilePicFile.file.OpenReadStream(), profilePicFile.fileContent.Extension);
+
+                _unitOfWork.FileContentRepository.Add(profilePicFile.fileContent);
+                if (existingUser.ProfilePicture != null)
+                { 
+                    await _blobStorage.DeleteBlob(existingUser.ProfilePicture.ContainerName, existingUser.ProfilePicture.BlobId);
+                    _unitOfWork.FileContentRepository.Remove(existingUser.ProfilePicture.Id);
+                }
+                existingUser.ProfilePicture = profilePicFile.fileContent;
+            }
+            if (userProfileUpdateDto.CoverPicture != null)
+            {
+                var coverPicFile = new
+                {
+
+                    fileContent = new FileContent()
+                    {
+                        Name = Path.GetFileNameWithoutExtension(userProfileUpdateDto.CoverPicture.FileName),
+                        Type = Constants.ProfileCoverPicContainer,
+                        Extension = Path.GetExtension(userProfileUpdateDto.CoverPicture.FileName)
+                    }
+                    ,
+                    file = userProfileUpdateDto.ProfilePicture
+                };
+
+                coverPicFile.fileContent.ContainerName = Constants.ProfileCoverPicContainer;
+                coverPicFile.fileContent.BlobId = await _blobStorage.UploadFileAsync(coverPicFile.fileContent.ContainerName, coverPicFile.file.OpenReadStream(), coverPicFile.fileContent.Extension);
+
+                _unitOfWork.FileContentRepository.Add(coverPicFile.fileContent);
+                if (existingUser.CoverPicture != null)
+                {
+                    await _blobStorage.DeleteBlob(existingUser.CoverPicture.ContainerName, existingUser.CoverPicture.BlobId);
+                    _unitOfWork.FileContentRepository.Remove(existingUser.CoverPicture.Id);
+                }
+                existingUser.CoverPicture = coverPicFile.fileContent;
+            }
+
+            await _unitOfWork.SaveAsync();
+            var dataToReturn = _mapper.Map<UserProfileDTO>(existingUser);
+            if (existingUser.ProfilePicture != null && dataToReturn.ProfilePicture != null)
+            {
+                dataToReturn.ProfilePicture.Url = await UpdatePictureLink(existingUser.ProfilePicture);
+            }
+            if (existingUser.CoverPicture != null && dataToReturn.CoverPicture != null)
+            {
+                dataToReturn.CoverPicture.Url = await UpdatePictureLink(existingUser.CoverPicture);
+            }
+
+            return Ok(dataToReturn);
+        }
+
+        private async Task<string> UpdatePictureLink(FileContent fileContent)
+        {
+            return await _blobStorage.GetSasUrlAsync(fileContent.ContainerName, fileContent.BlobId);
         }
     }
 }

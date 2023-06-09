@@ -22,6 +22,7 @@ namespace SubscribeForContentAPI.Extensions
             services.AddSingleton<IBlobStorage, BlobStorageService>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<UsernameGenerator>();
+            services.AddScoped<IAuthService, AuthService>();
             return services;
         }
     }

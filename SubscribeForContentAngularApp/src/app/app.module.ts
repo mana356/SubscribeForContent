@@ -41,6 +41,11 @@ import { JWTTokenService } from './shared/services/jwt-token.service';
 import { LoaderService } from './shared/services/loader.service';
 import { FileContentComponent } from './components/post-content/file-content/file-content.component';
 import { NgImageSliderModule } from 'ng-image-slider';
+import {
+  JsonDateParser,
+  JsonParser,
+  JsonParserHttpInterceptor,
+} from './shared/interceptors/json.interceptor';
 
 @NgModule({
   declarations: [
@@ -84,7 +89,13 @@ import { NgImageSliderModule } from 'ng-image-slider';
   providers: [
     DatePipe,
     AuthService,
+    { provide: JsonParser, useClass: JsonDateParser },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: JsonParserHttpInterceptor,
+      multi: true,
+    },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ErrorCatchingInterceptor,

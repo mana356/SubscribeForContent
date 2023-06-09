@@ -5,6 +5,7 @@ using SFC_DataAccess.Repository.Contracts;
 using SFC_DataEntities.Entities;
 using SFC_DTO.FileContent;
 using SFC_DTO.Post;
+using SFC_Utility;
 using SubscribeForContentAPI.Services.Contracts;
 using System.Security.Claims;
 
@@ -17,14 +18,14 @@ namespace SubscribeForContentAPI.Controllers
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IBlobStorage _blobStorage;
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IAuthService _authService;
 
-        public PostController(IMapper mapper, IUnitOfWork unitOfWork, IBlobStorage blobStorage, IHttpContextAccessor httpContextAccessor)
+        public PostController(IMapper mapper, IUnitOfWork unitOfWork, IBlobStorage blobStorage, IAuthService authService)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
             _blobStorage = blobStorage;
-            _httpContextAccessor = httpContextAccessor;
+            _authService = authService;
         }
 
         [Authorize]
@@ -39,12 +40,11 @@ namespace SubscribeForContentAPI.Controllers
                 {
                     foreach (var row in post.FileContents)
                     {
-                        var url = await _blobStorage.GetSasUrlAsync(row.ContainerName, row.BlobId);
                         var recordToUpdate = postResults.FirstOrDefault(p => p.Id == post.Id);
                         var fileContent = recordToUpdate?.FileContents.FirstOrDefault(f => f.Id == row.Id);
                         if (fileContent != null)
                         { 
-                            fileContent.Url = url; 
+                            fileContent.Url = await UpdatePictureLink(row);
                         }
                     }
                 }
@@ -69,9 +69,8 @@ namespace SubscribeForContentAPI.Controllers
             {
                 foreach (var row in postEntity.FileContents)
                 {
-                    var url = await _blobStorage.GetSasUrlAsync(row.ContainerName, row.BlobId);
                     var recordToUpdate = dataToReturn.FileContents.FirstOrDefault(f => f.Id == row.Id);
-                    recordToUpdate.Url = url;
+                    recordToUpdate.Url = await UpdatePictureLink(row);
                 }            
             }
 
@@ -91,7 +90,7 @@ namespace SubscribeForContentAPI.Controllers
                     fileContent = new FileContent()
                     { 
                         Name = Path.GetFileNameWithoutExtension(f.FileName),
-                        Type = "PostContent",
+                        Type = Constants.PostContentContainer,
                         Extension = Path.GetExtension(f.FileName)
                     }
                     ,file = f
@@ -99,14 +98,14 @@ namespace SubscribeForContentAPI.Controllers
                 
                 foreach (var item in files)
                 {
-                    item.fileContent.ContainerName = "PostContent";
+                    item.fileContent.ContainerName = Constants.PostContentContainer;
                     item.fileContent.BlobId = await _blobStorage.UploadFileAsync(item.fileContent.ContainerName, item.file.OpenReadStream(), item.fileContent.Extension);
                 }
 
                 _unitOfWork.FileContentRepository.AddRange(files.Select(f => f.fileContent).ToList());
                 postEntity.FileContents = files.Select(f => f.fileContent).ToList();
             }
-            var user = await GetLoggedInUser();
+            var user = await _authService.GetLoggedInUser();
             postEntity.CreatorId = user.Id;
 
             _unitOfWork.PostRepository.Add(postEntity);
@@ -140,11 +139,9 @@ namespace SubscribeForContentAPI.Controllers
             return NoContent();
         }
 
-        private async Task<UserProfile> GetLoggedInUser()
+        private async Task<string> UpdatePictureLink(FileContent fileContent)
         {
-            var firebaseUserId = _httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var userProfile = await _unitOfWork.UserProfileRepository.GetFirstOrDefaultAsync(u => u.FirebaseUserId == firebaseUserId);
-            return userProfile;
+            return await _blobStorage.GetSasUrlAsync(fileContent.ContainerName, fileContent.BlobId);
         }
     }
 }

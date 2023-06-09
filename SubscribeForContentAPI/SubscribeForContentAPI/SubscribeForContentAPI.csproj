@@ -34,8 +34,4 @@
     <ProjectReference Include="..\SFC_Utility\SFC_Utility.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Services\" />
-  </ItemGroup>
-
 </Project>
