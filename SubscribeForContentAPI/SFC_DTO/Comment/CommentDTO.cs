@@ -16,6 +16,10 @@ namespace SFC_DTO.Comment
 
         public int? ParentCommentId { get; set; }
 
+        public DateTime CreatedOn { get; set; }
+
+        public DateTime? UpdatedOn { get; set; }
+
         public IEnumerable<UserBasicProfileDTO> LikedByUsers { get; set; }
 
         public IEnumerable<CommentDTO> ChildComments { get; set; }

@@ -1,8 +1,19 @@
-<app-post [post]="postData"></app-post>
-<div *ngIf="comments !== undefined && comments.length > 0">
-  <app-comment
-    *ngFor="let comment of comments"
-    [commentData]="comment"
-  ></app-comment>
+<div class="post-detail-container">
+  <app-post [post]="postData"></app-post>
+
+  <div *ngIf="comments !== undefined && comments.length > 0">
+    <mat-card class="comments-list-card">
+      <h4 class="comments-title">Comments:</h4>
+      <app-comment
+        *ngFor="let comment of comments"
+        [commentData]="comment"
+      ></app-comment>
+    </mat-card>
+  </div>
+  <div
+    *ngIf="comments === undefined || comments.length === 0"
+    class="no-post-comments"
+  >
+    <span>No comments available!</span>
+  </div>
 </div>
-<div>No comments available!</div>

@@ -1,15 +1,19 @@
 <div *ngIf="commentData !== undefined">
   <mat-card class="comment-card">
     <mat-card-header>
-      <div style="display: inline-block">
+      <div style="display: flex; align-items: center">
         <div style="width: 95%; float: left">
           <span class="commenter-details">
-            {{ commentData.user.userName }}
+            <a [routerLink]="['/creator', commentData.user.userName]">{{
+              commentData.user.userName
+            }}</a>
+            commented on
             {{
               commentData.updatedOn !== null
                 ? (commentData.updatedOn | date : "short")
                 : (commentData.createdOn | date : "short")
             }}
+            {{ commentData.updatedOn !== null ? "(edited)" : "" }}
           </span>
         </div>
         <div style="width: 5%; float: right">
@@ -37,21 +41,31 @@
               <mat-icon>delete</mat-icon>
               <span>Delete Comment</span>
             </button>
+            <button mat-menu-item>
+              <mat-icon>report</mat-icon>
+              <span>Report Abuse</span>
+            </button>
           </mat-menu>
         </div>
       </div>
     </mat-card-header>
-    <mat-card-contet>{{ commentData.body }}</mat-card-contet>
-    <mat-card-actions
-      ><button mat-icon-button>
+    <mat-card-contet class="comment-body">{{
+      commentData.body
+    }}</mat-card-contet>
+    <mat-card-actions class="comment-actions">
+      <mat-icon class="comment-action-item" color="warn">
         {{
           commentData.likedByUsers !== null &&
           commentData.likedByUsers !== undefined &&
           commentData.likedByUsers.length > 0
             ? commentData.likedByUsers.length
             : ""
-        }}<mat-icon>heart</mat-icon>
-      </button></mat-card-actions
+        }}favorite_border</mat-icon
+      >
+      <mat-icon class="comment-action-item" color="black">reply_border</mat-icon
+      ><mat-icon class="comment-action-item" color="black"
+        >share</mat-icon
+      ></mat-card-actions
     >
     <div
       *ngIf="
@@ -59,6 +73,7 @@
         commentData.childComments !== undefined &&
         commentData.childComments.length > 0
       "
+      class="child-comments-container"
     >
       <app-comment
         *ngFor="let childComment of commentData.childComments"

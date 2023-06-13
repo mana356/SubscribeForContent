@@ -1,6 +1,8 @@
 .comment-card {
-  width: 50vw;
-  margin: 9px;
+  max-width: 50vw;
+  margin: 0px 0px 10px 10px;
+  border-left: 3px solid lightgray;
+  border-top: 1px solid lightgray;
 }
 .commenter-details {
   text-align: left;
@@ -9,4 +11,28 @@
 }
 .mat-mdc-card-header {
   flex-direction: column-reverse;
+  padding: 0;
+}
+.comment-body {
+  margin-top: 0px;
+  white-space: pre-line;
+  line-break: loose;
+  line-height: 22px;
+  padding: 15px;
+  width: 50vw;
+  overflow-wrap: break-word;
+}
+.mdc-card__actions {
+  padding: 0;
+  min-height: 42px;
+}
+.comment-actions {
+  background-color: #d5d0d0;
+}
+.child-comments-container {
+  background-color: #f3efef;
+}
+.comment-action-item {
+  margin-left: 0.5em;
+  cursor: pointer;
 }
