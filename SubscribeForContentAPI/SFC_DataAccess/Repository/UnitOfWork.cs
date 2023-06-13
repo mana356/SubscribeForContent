@@ -13,13 +13,14 @@ namespace SFC_DataAccess.Repository
         private readonly SFCDBContext _dbContext;
         public SFCDBContext DbContext => _dbContext;
 
-        public UnitOfWork(SFCDBContext dbContext, IPostRepository postRepository, IFileContentRepository fileContentRepository, IUserProfileRepository userProfileRepository, ISubscriptionLevelRepository subscriptionLevelRepository)
+        public UnitOfWork(SFCDBContext dbContext, IPostRepository postRepository, IFileContentRepository fileContentRepository, IUserProfileRepository userProfileRepository, ISubscriptionLevelRepository subscriptionLevelRepository, ICommentRepository commentRepository)
         {
             _dbContext = dbContext;
             PostRepository = postRepository;
             FileContentRepository = fileContentRepository;
             UserProfileRepository = userProfileRepository;
             SubscriptionLevelRepository = subscriptionLevelRepository;
+            CommentRepository = commentRepository;
         }
 
         public IPostRepository PostRepository { get; }
@@ -29,6 +30,8 @@ namespace SFC_DataAccess.Repository
         public IUserProfileRepository UserProfileRepository { get; }
 
         public ISubscriptionLevelRepository SubscriptionLevelRepository { get; }
+
+        public ICommentRepository CommentRepository { get; }
 
         public void Dispose()
         {

@@ -1,5 +1,6 @@
 ﻿using SFC_DTO.Post;
 using SFC_DTO.UserProfile;
+using System.Text.Json.Serialization;
 
 namespace SFC_DTO.Comment
 {
@@ -13,8 +14,7 @@ namespace SFC_DTO.Comment
 
         public int PostId { get; set; }
 
-        public PostDTO Post { get; set; }
-        public CommentDTO ParentComment { get; set; }
+        public int? ParentCommentId { get; set; }
 
         public IEnumerable<UserBasicProfileDTO> LikedByUsers { get; set; }
 

@@ -139,6 +139,31 @@ namespace SubscribeForContentAPI.Controllers
             return NoContent();
         }
 
+        [Authorize]
+        [HttpPut("like/{id}")]
+        public async Task<IActionResult> UpdatePostLike(int id, [FromBody] bool like)
+        {
+            var postEntity = await _unitOfWork.PostRepository.GetFirstOrDefaultAsync(x => x.Id == id);
+            if (postEntity == null)
+            {
+                return NotFound();
+            }
+            var userEntity = await _unitOfWork.UserProfileRepository.GetFirstOrDefaultAsync(u => u.FirebaseUserId == _authService.GetFirebaseUserId());
+            if (userEntity == null)
+            {
+                return NotFound();
+            }
+            if (like && !postEntity.LikedByUsers.Any(u => u.Id == userEntity.Id))
+            {
+                postEntity.LikedByUsers.Add(userEntity);
+            }
+            else if (!like && postEntity.LikedByUsers.Any(u => u.Id == userEntity.Id))
+            {
+                postEntity.LikedByUsers.Remove(userEntity);
+            }
+            return NoContent();
+        }
+
         private async Task<string> UpdatePictureLink(FileContent fileContent)
         {
             return await _blobStorage.GetSasUrlAsync(fileContent.ContainerName, fileContent.BlobId);

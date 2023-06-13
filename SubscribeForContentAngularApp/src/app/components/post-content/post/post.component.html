@@ -2,7 +2,7 @@
   <mat-card-header>
     <div style="display: inline-block">
       <div style="width: 95%; float: left">
-        <span class="creator-details">
+        <span *ngIf="post.creator !== undefined" class="creator-details">
           <a [routerLink]="['/creator', post.creator.userName]">{{
             post.creator.userName
           }}</a>
@@ -15,16 +15,11 @@
         }}</mat-card-subtitle>
       </div>
       <div style="width: 5%; float: right">
-        <button
-          mat-icon-button
-          [matMenuTriggerFor]="menu"
-          style="float: right"
-          aria-label="Example icon-button with a menu"
-        >
+        <button mat-icon-button [matMenuTriggerFor]="menu" style="float: right">
           <mat-icon>more_vert</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
-          <button mat-menu-item>
+          <button mat-menu-item [routerLink]="['/post', post.id]">
             <mat-icon>open_in_new</mat-icon>
             <span>Open Post</span>
           </button>

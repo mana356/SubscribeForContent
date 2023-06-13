@@ -1,0 +1,69 @@
+<div *ngIf="commentData !== undefined">
+  <mat-card class="comment-card">
+    <mat-card-header>
+      <div style="display: inline-block">
+        <div style="width: 95%; float: left">
+          <span class="commenter-details">
+            {{ commentData.user.userName }}
+            {{
+              commentData.updatedOn !== null
+                ? (commentData.updatedOn | date : "short")
+                : (commentData.createdOn | date : "short")
+            }}
+          </span>
+        </div>
+        <div style="width: 5%; float: right">
+          <button
+            mat-icon-button
+            [matMenuTriggerFor]="commentMenu"
+            style="float: right"
+          >
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #commentMenu="matMenu">
+            <button
+              mat-menu-item
+              *ngIf="isAuthorizedToEdit"
+              (click)="editComment()"
+            >
+              <mat-icon>edit</mat-icon>
+              <span>Edit Comment</span>
+            </button>
+            <button
+              mat-menu-item
+              *ngIf="isAuthorizedToDelete"
+              (click)="deleteComment()"
+            >
+              <mat-icon>delete</mat-icon>
+              <span>Delete Comment</span>
+            </button>
+          </mat-menu>
+        </div>
+      </div>
+    </mat-card-header>
+    <mat-card-contet>{{ commentData.body }}</mat-card-contet>
+    <mat-card-actions
+      ><button mat-icon-button>
+        {{
+          commentData.likedByUsers !== null &&
+          commentData.likedByUsers !== undefined &&
+          commentData.likedByUsers.length > 0
+            ? commentData.likedByUsers.length
+            : ""
+        }}<mat-icon>heart</mat-icon>
+      </button></mat-card-actions
+    >
+    <div
+      *ngIf="
+        commentData.childComments !== null &&
+        commentData.childComments !== undefined &&
+        commentData.childComments.length > 0
+      "
+    >
+      <app-comment
+        *ngFor="let childComment of commentData.childComments"
+        [commentData]="childComment"
+      ></app-comment>
+    </div>
+  </mat-card>
+</div>

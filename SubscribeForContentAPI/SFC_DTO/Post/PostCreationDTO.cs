@@ -1,8 +1,4 @@
 ﻿using Microsoft.AspNetCore.Http;
-using SFC_DTO.Comment;
-using SFC_DTO.CreatorSubscriptionLevel;
-using SFC_DTO.FileContent;
-using SFC_DTO.UserProfile;
 using System.ComponentModel.DataAnnotations;
 
 namespace SFC_DTO.Post

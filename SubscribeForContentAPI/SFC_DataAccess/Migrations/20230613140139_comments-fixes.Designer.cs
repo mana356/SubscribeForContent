@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SFC_DataAccess.Data;
 
@@ -11,9 +12,11 @@ using SFC_DataAccess.Data;
 namespace SFC_DataAccess.Migrations
 {
     [DbContext(typeof(SFCDBContext))]
-    partial class SFCDBContextModelSnapshot : ModelSnapshot
+    [Migration("20230613140139_comments-fixes")]
+    partial class commentsfixes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

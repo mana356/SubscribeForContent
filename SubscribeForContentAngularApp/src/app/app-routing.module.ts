@@ -3,7 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { AppLayoutComponent } from './components/general/app-layout/app-layout.component';
 import { UserHomeComponent } from './components/main-screens/user-home/user-home.component';
 import { AdminHomeComponent } from './components/main-screens/admin-home/admin-home.component';
-import { PostComponent } from './components/post-content/post/post.component';
 import { SubscribeToCreatorComponent } from './components/main-screens/subscribe-to-creator/subscribe-to-creator.component';
 import { UserProfileComponent } from './components/main-screens/user-profile/user-profile.component';
 import { CreatePostComponent } from './components/main-screens/create-post/create-post.component';
@@ -15,6 +14,7 @@ import { SignUpComponent } from './components/firebase/sign-up/sign-up.component
 import { VerifyEmailComponent } from './components/firebase/verify-email/verify-email.component';
 import { AuthGuard } from './shared/guards/auth.guard';
 import { ErrorComponent } from './components/general/error/error.component';
+import { PostDetailComponent } from './components/main-screens/post-detail/post-detail.component';
 
 const routes: Routes = [
   {
@@ -32,7 +32,11 @@ const routes: Routes = [
         component: AdminHomeComponent,
         canActivate: [AuthGuard],
       },
-      { path: 'post', component: PostComponent, canActivate: [AuthGuard] },
+      {
+        path: 'post/:id',
+        component: PostDetailComponent,
+        canActivate: [AuthGuard],
+      },
       {
         path: 'subscribe/:username',
         component: SubscribeToCreatorComponent,

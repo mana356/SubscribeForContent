@@ -29,7 +29,10 @@
     <ul style="list-style: none; padding-inline-start: 0"></ul>
   </mat-card>
   <div class="home-feed">
-    <app-post *ngFor="let postItem of homePosts" [post]="postItem"></app-post>
+    <app-post
+      *ngFor="let postItem of postList | async"
+      [post]="postItem"
+    ></app-post>
   </div>
   <div class="home-feed-ending">
     <span>That's all folks!</span>

@@ -9,6 +9,7 @@ namespace SubscribeForContentAPI.AutoMapperProfiles
         public CommentProfile()
         {
             CreateMap<Comment, CommentDTO>();
+            CreateMap<CommentCreationDTO, Comment>();
         }
     }
 }

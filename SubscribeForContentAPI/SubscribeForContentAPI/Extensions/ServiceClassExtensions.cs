@@ -17,6 +17,7 @@ namespace SubscribeForContentAPI.Extensions
             services.AddScoped<IFileContentRepository, FileContentRepository>();
             services.AddScoped<IUserProfileRepository, UserProfileRepository>();
             services.AddScoped<ISubscriptionLevelRepository, SubscriptionLevelRepository>();
+            services.AddScoped<ICommentRepository, CommentRepository>();
 
             services.Configure<ConnectionStrings>(configuration.GetSection("ConnectionStrings"));
             services.AddSingleton<IBlobStorage, BlobStorageService>();

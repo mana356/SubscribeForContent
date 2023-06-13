@@ -46,6 +46,8 @@ import {
   JsonParser,
   JsonParserHttpInterceptor,
 } from './shared/interceptors/json.interceptor';
+import { CommentComponent } from './components/general/comment/comment.component';
+import { PostDetailComponent } from './components/main-screens/post-detail/post-detail.component';
 
 @NgModule({
   declarations: [
@@ -68,6 +70,8 @@ import {
     SpinnerComponent,
     ErrorComponent,
     FileContentComponent,
+    CommentComponent,
+    PostDetailComponent,
   ],
   imports: [
     BrowserModule,

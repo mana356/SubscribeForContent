@@ -26,6 +26,10 @@ namespace SFC_DataEntities.Entities
 
         public int? ParentCommentId { get; set; }
 
+        [Required]
+        public DateTime CreatedOn { get; set; } = DateTime.Now;
+
+        public DateTime? UpdatedOn { get; set; }
         public Post Post { get; set; }
         public Comment? ParentComment { get; set; }
 

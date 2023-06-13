@@ -1,0 +1,8 @@
+<app-post [post]="postData"></app-post>
+<div *ngIf="comments !== undefined && comments.length > 0">
+  <app-comment
+    *ngFor="let comment of comments"
+    [commentData]="comment"
+  ></app-comment>
+</div>
+<div>No comments available!</div>

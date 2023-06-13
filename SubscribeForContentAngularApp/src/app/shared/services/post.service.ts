@@ -15,6 +15,9 @@ export class PostService {
   GetUserHomeFeed(): Observable<Post[]> {
     return this.http.get<Post[]>(environment.apiURL + 'Posts');
   }
+  GetPostById(id: number): Observable<Post> {
+    return this.http.get<Post>(environment.apiURL + 'Posts/' + id.toString());
+  }
   GetCreatorPosts(username: string): Observable<Post[]> {
     let params = new HttpParams().set('CreatorUserName', username);
     return this.http.get<Post[]>(environment.apiURL + 'Posts', {

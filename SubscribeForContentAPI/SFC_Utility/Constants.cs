@@ -5,5 +5,6 @@
         public static string PostContentContainer = "PostContent";
         public static string ProfilePicContainer = "UserProfilePicture";
         public static string ProfileCoverPicContainer = "UserProfileCoverPicture";
+        public static int DeletedUserId = 4;
     }
 }
