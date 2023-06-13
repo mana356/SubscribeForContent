@@ -1,5 +1,5 @@
 <div class="post-detail-container">
-  <app-post [post]="postData"></app-post>
+  <app-post [post]="postData" [detailMode]="true"></app-post>
 
   <div *ngIf="comments !== undefined && comments.length > 0">
     <mat-card class="comments-list-card">

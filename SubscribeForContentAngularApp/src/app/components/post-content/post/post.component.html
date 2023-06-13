@@ -19,7 +19,11 @@
           <mat-icon>more_vert</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
-          <button mat-menu-item [routerLink]="['/post', post.id]">
+          <button
+            mat-menu-item
+            [routerLink]="['/post', post.id]"
+            *ngIf="!detailMode"
+          >
             <mat-icon>open_in_new</mat-icon>
             <span>Open Post</span>
           </button>

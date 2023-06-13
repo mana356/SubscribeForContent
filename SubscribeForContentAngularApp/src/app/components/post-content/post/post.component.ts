@@ -11,6 +11,7 @@ import { UserService } from 'src/app/shared/services/user.service';
 })
 export class PostComponent implements OnInit {
   @Input() post: Post | undefined;
+  @Input() detailMode: boolean = false;
   constructor(
     private userService: UserService,
     private postService: PostService,
