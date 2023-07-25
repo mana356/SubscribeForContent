@@ -1,0 +1,33 @@
+.subscription-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+  .subscription-card {
+    width: 60vw;
+    margin: 15px;
+    mat-card-content {
+      display: flex;
+      justify-content: space-evenly;
+      form {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+        width: 60%;
+      }
+    }
+
+    .actions-div {
+      display: block;
+      text-align: center;
+      margin: 10px;
+      display: flex;
+      justify-content: flex-end;
+      width: 100%;
+    }
+  }
+}
+.cost-display {
+  margin-top: 10vh;
+  font-size: large;
+}

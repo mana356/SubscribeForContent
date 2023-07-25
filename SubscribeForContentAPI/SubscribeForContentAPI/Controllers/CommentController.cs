@@ -31,7 +31,7 @@ namespace SubscribeForContentAPI.Controllers
 
         [Authorize]
         [HttpGet]
-        public async Task<IActionResult> GetAllPosts([FromQuery] CommentSearchFilter queryFilter = null)
+        public async Task<IActionResult> GetAllComments([FromQuery] CommentSearchFilter queryFilter = null)
         {
             var comments = await _unitOfWork.CommentRepository.GetCommentsAsync(queryFilter);
             var commentResults = _mapper.Map<List<CommentDTO>>(comments);

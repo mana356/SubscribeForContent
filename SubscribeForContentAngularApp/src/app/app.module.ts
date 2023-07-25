@@ -48,6 +48,7 @@ import {
 } from './shared/interceptors/json.interceptor';
 import { CommentComponent } from './components/general/comment/comment.component';
 import { PostDetailComponent } from './components/main-screens/post-detail/post-detail.component';
+import { CdkColumnDef } from '@angular/cdk/table';
 
 @NgModule({
   declarations: [
@@ -109,6 +110,7 @@ import { PostDetailComponent } from './components/main-screens/post-detail/post-
     LocalStorageService,
     JWTTokenService,
     LoaderService,
+    CdkColumnDef,
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
